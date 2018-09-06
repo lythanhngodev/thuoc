@@ -177,11 +177,11 @@
     $(document).on('click','#btn-sua',function(){
     	var ten = $('#sua-tennhom').val();
     	if (!ten) {
-    		tbdanger('Vui lòng điền tên tầng');
+    		tbdanger('Vui lòng điền tên đơn vị tính');
     		return false;
     	}
         $.ajax({
-            url: 'ajax/ajSuanhommathang.php',
+            url: 'ajax/ajSuadonvitinh.php',
             type: 'POST',
             data: {
             	ten:ten,
@@ -191,7 +191,7 @@
             	var kq = $.parseJSON(data);
             	if (kq.trangthai) {
             		$('#modal-sua').modal('hide');
-            		tbsuccess('Đã sửa nhóm mặt hàng');
+            		tbsuccess('Đã sửa đơn vị tính');
             		setTimeout(function(){
 				        location.reload();
 				    }, 2000);

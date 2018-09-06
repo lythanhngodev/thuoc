@@ -2,6 +2,8 @@
 	require_once "model/mathang.php";
 	$mathang = laymathang();
 	$nhommathang = laynhommathang();
-	$nhommathangs = laynhommathang();
+	$nhommathang2 = laynhommathang();
+	$donvitinh = laydonvitinh();
+	$donvitinh2 = laydonvitinh();
 	require_once "view/mathang.php";
  ?>
