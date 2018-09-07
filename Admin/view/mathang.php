@@ -5,8 +5,7 @@
 
 <div style="margin: 0 auto;">
   <div class="row">
-      <div class="col-md-1"></div>
-      <div class="col-md-10">
+      <div class="col-md-12">
             <div class="box box-primary">
               <!-- /.box-header -->
               <div class="box-body">
@@ -17,6 +16,7 @@
                   <tr>
                     <th class="text-center">TT</th>
                     <th>Tên mặt hàng</th>
+                    <th>Diễn giải</th>
                     <th>Nhóm hàng</th>
                     <th>Đơn vị tính</th>
                     <th>Giá nhập</th>
@@ -32,6 +32,7 @@
                     <tr>
                       <td class="text-center"><?php echo $stt; ?></td>
                       <td><?php echo $row['TENMH']; ?></td>
+                      <td><?php echo $row['DIENGIAI'] ?></td>
                       <td ltn="<?php echo $row['IDNH'] ?>"><?php echo $row['TENNH']; ?></td>
                       <td ltn="<?php echo $row['IDDVT'] ?>"><?php echo $row['TENDVT']; ?></td>
                       <td class="text-right"><?php echo $row['GIANHAP']; ?></td>
@@ -46,6 +47,7 @@
                   <tr>
                     <th class="text-center">TT</th>
                     <th>Tên mặt hàng</th>
+                    <th>Diễn giải</th>
                     <th>Nhóm hàng</th>
                     <th>Đơn vị tính</th>
                     <th>Giá nhập</th>
@@ -60,7 +62,6 @@
               <!-- /.box-body -->
             </div>
       </div>
-      <div class="col-md-1"></div>
   </div>
 </div>
 <div class="modal fade" id="modal-them">
@@ -76,6 +77,10 @@
     		  <label for="exampleInputEmail1">Tên mặt hàng</label>
     		  <input type="text" class="form-control" id="them-tenmathang" placeholder="Tên mặt hàng">
     		</div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Diễn giải</label>
+          <input type="text" class="form-control" id="them-diengiai" placeholder="Diễn giải">
+        </div>
         <div class="form-group">
           <label for="exampleInputEmail1">Nhóm mặt hàng</label>
           <select class="form-control" id="them-nhommathang">
@@ -126,6 +131,10 @@
         <div class="form-group">
           <label for="exampleInputEmail1">Tên mặt hàng</label>
           <input type="text" class="form-control" id="sua-tenmathang" placeholder="Tên mặt hàng">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Diễn giải</label>
+          <input type="text" class="form-control" id="sua-diengiai" placeholder="Diễn giải">
         </div>
         <div class="form-group">
           <label for="exampleInputEmail1">Nhóm mặt hàng</label>
@@ -238,11 +247,12 @@
     });
     $(document).on('click','.sua',function(){
     	$('#sua-tenmathang').val($(this).parent('td').parent('tr').find('td:nth-child(2)').text().trim());
-      $('#sua-gianhap').val($(this).parent('td').parent('tr').find('td:nth-child(5)').text().trim());
-      $('#sua-giaban').val($(this).parent('td').parent('tr').find('td:nth-child(6)').text().trim());
-      $('#sua-ghichu').val($(this).parent('td').parent('tr').find('td:nth-child(8)').text().trim());
-    	$('#sua-nhommathang').val($(this).parent('td').parent('tr').find('td:nth-child(3)').attr('ltn')).change();
-      $('#sua-donvitinh').val($(this).parent('td').parent('tr').find('td:nth-child(4)').attr('ltn')).change();
+      $('#sua-diengiai').val($(this).parent('td').parent('tr').find('td:nth-child(3)').text().trim());
+      $('#sua-gianhap').val($(this).parent('td').parent('tr').find('td:nth-child(6)').text().trim());
+      $('#sua-giaban').val($(this).parent('td').parent('tr').find('td:nth-child(7)').text().trim());
+      $('#sua-ghichu').val($(this).parent('td').parent('tr').find('td:nth-child(9)').text().trim());
+    	$('#sua-nhommathang').val($(this).parent('td').parent('tr').find('td:nth-child(4)').attr('ltn')).change();
+      $('#sua-donvitinh').val($(this).parent('td').parent('tr').find('td:nth-child(5)').attr('ltn')).change();
       $('#sua-id').val($(this).parent('td').attr('ltn').trim());
     	$('#modal-sua').modal('show');
     });
@@ -269,6 +279,7 @@
             	mathang:ten,
               idnh:$('#them-nhommathang').val().trim(),
               dvt: dvt,
+              diengiai: $('#them-diengiai').val().trim(),
               gianhap: $('#them-gianhap').val(),
               giaban: $('#them-giaban').val(),
               ghichu: $('#them-ghichu').val().trim()
@@ -307,6 +318,7 @@
               mathang:ten,
               idnh:$('#sua-nhommathang').val().trim(),
               dvt: dvt,
+              diengiai: $('#sua-diengiai').val().trim(),
               gianhap: $('#sua-gianhap').val(),
               giaban: $('#sua-giaban').val(),
               ghichu: $('#sua-ghichu').val().trim()

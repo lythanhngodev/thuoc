@@ -8,7 +8,8 @@
 		if (isset($_POST['ten']) && !empty($_POST['ten'])) {
 			$kn = new clsKetnoi();
 			$ten = mysqli_real_escape_string($kn->conn,$_POST['ten']);
-			$kiemtra = $kn->editdata("INSERT INTO donvitinh (TENDVT) VALUES ('$ten');");
+			$dvt = intval($_POST['iddvt']);
+			$kiemtra = $kn->editdata("UPDATE donvitinh SET TENDVT = '$ten' WHERE IDDVT = '$dvt'");
 			if ($kiemtra>0) {
 				$kq['trangthai']=1;
 				echo json_encode($kq);

@@ -14,6 +14,7 @@
 			$gianhap = floatval($_POST['gianhap']);
 			$giaban = floatval($_POST['giaban']);
 			$ghichu = mysqli_real_escape_string($kn->conn,$_POST['ghichu']);
+			$diengiai = mysqli_real_escape_string($kn->conn,$_POST['diengiai']);
 			$kiemtra = $kn->editdata("
 				UPDATE mathang 
 				SET
@@ -22,7 +23,8 @@
 					IDDVT = '$dvt', 
 					GIANHAP = '$gianhap',
 					GIABAN = '$giaban',
-					GHICHU = '$ghichu'
+					GHICHU = '$ghichu',
+					DIENGIAI = '$diengiai'
 				WHERE
 					IDMH = '$idmh'
 				");

@@ -175,7 +175,7 @@
         });
     });
     $(document).on('click','#btn-sua',function(){
-    	var ten = $('#sua-tennhom').val();
+    	var ten = $('#sua-tendonvitinh').val();
     	if (!ten) {
     		tbdanger('Vui lòng điền tên đơn vị tính');
     		return false;
@@ -185,7 +185,7 @@
             type: 'POST',
             data: {
             	ten:ten,
-            	id:$('#sua-id').val()
+            	iddvt:$('#sua-id').val()
             },
             success: function (data) {
             	var kq = $.parseJSON(data);

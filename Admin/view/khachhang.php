@@ -1,45 +1,52 @@
 <script src="../public/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="../public/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-<div style="margin: 0 auto;">
-  <div class="row">
-      <div class="col-md-2"></div>
-      <div class="col-md-8">
-            <div class="box box-primary">
-              <!-- /.box-header -->
-              <div class="box-body">
-                <button class="btn btn-default" data-toggle="modal" data-target="#modal-them"><i class="fa fa-plus"></i> Thêm mới</button><hr>
-                <table id="example1" class="table table-bordered table-striped">
-                  <thead>
-                  <tr>
-                    <th>Tên bàn</th>
-                    <th>Khu vực / Tầng / Lầu</th>
-                    <th>Thao tác</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <?php
-                  while ($row=mysqli_fetch_assoc($ban)) { ?>
-                    <tr>
-                      <td><?php echo $row['TENB']; ?></td>
-                      <td ltn="<?php echo $row['IDT'] ?>"><?php echo $row['TENT']; ?></td>
-                      <td ltn="<?php echo $row['IDB'] ?>"><button class="btn btn-primary btn-sm sua">Sửa</button>&ensp;<button class="btn btn-danger btn-sm xoa">Xoá</button></td>
-                    </tr>
-                  <?php } ?>
-                  </tbody>
-                  <tfoot>
-                  <tr>
-                    <th>Tên bàn</th>
-                    <th>Khu vực / Tầng / Lầu</th>
-                    <th>Thao tác</th>
-                  </tr>
-                  </tfoot>
-                </table>
-              </div>
-              <!-- /.box-body -->
+<div class="row">
+    <div class="col-md-1"></div>
+		<div class="col-md-10">
+          <div class="box box-primary">
+            <!-- /.box-header -->
+            <div class="box-body">
+              <button class="btn btn-default" data-toggle="modal" data-target="#modal-them"><i class="fa fa-plus"></i> Thêm mới</button><hr>
+              <table id="example1" class="table table-hover table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th>Tên khách hàng</th>
+                  <th>Bí danh</th>
+                  <th>Điện thoại</th>
+                  <th>MST</th>
+                  <th>Địa chỉ</th>
+                  <th>Thao tác</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php
+                while ($row=mysqli_fetch_assoc($khachhang)) { ?>
+	                <tr>
+	                  <td><?php echo $row['TENKH']; ?></td>
+                    <td><?php echo $row['BIETHIEU']; ?></td>
+                    <td><?php echo $row['SDT']; ?></td>
+                    <td><?php echo $row['MST']; ?></td>
+                    <td><?php echo $row['DIACHI']; ?></td>
+	                  <td ltn="<?php echo $row['IDKH'] ?>"><button class="btn btn-primary btn-sm sua">Sửa</button>&ensp;<button class="btn btn-danger btn-sm xoa">Xoá</button></td>
+	                </tr>
+                <?php } ?>
+                </tbody>
+                <tfoot>
+                <tr>
+                  <th>Tên khách hàng</th>
+                  <th>Bí danh</th>
+                  <th>Điện thoại</th>
+                  <th>MST</th>
+                  <th>Địa chỉ</th>
+                  <th>Thao tác</th>
+                </tr>
+                </tfoot>
+              </table>
             </div>
-      </div>
-      <div class="col-md-2"></div>
-  </div>
+            <!-- /.box-body -->
+          </div>
+		</div>
+    <div class="col-md-1"></div>
 </div>
 <div class="modal fade" id="modal-them">
   <div class="modal-dialog" role="document">
@@ -47,21 +54,13 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Thêm bàn</h4>
+        <h4 class="modal-title">Thêm đơn vị tính</h4>
       </div>
       <div class="modal-body">
-        <div class="form-group">
-          <label for="exampleInputEmail1">Khu vực</label>
-          <select class="form-control" id="them-tang">
-            <?php while ($row = mysqli_fetch_assoc($tanglau)) { ?>
-            <option value="<?php echo $row['IDT'] ?>"><?php echo $row['TENT'] ?></option>  
-            <?php } ?>
-          </select>
-        </div>
-    		<div class="form-group">
-    		  <label for="exampleInputEmail1">Tên bàn</label>
-    		  <input type="text" class="form-control" id="them-tenban" placeholder="Tên bàn">
-    		</div>
+		<div class="form-group">
+		  <label for="exampleInputEmail1">Tên đơn vị tính</label>
+		  <input type="text" class="form-control" id="them-tendonvitinh" placeholder="Tên đơn vị tính">
+		</div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
@@ -78,22 +77,14 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Sửa bàn</h4>
+        <h4 class="modal-title">Sửa đơn vị tính</h4>
       </div>
       <div class="modal-body">
-        <div class="form-group">
-          <label for="exampleInputEmail1">Khu vực</label>
-          <select class="form-control" id="sua-tang">
-            <?php while ($row = mysqli_fetch_assoc($tanglaus)) { ?>
-            <option value="<?php echo $row['IDT'] ?>"><?php echo $row['TENT'] ?></option>  
-            <?php } ?>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="exampleInputEmail1">Tên bàn</label>
-          <input type="text" class="form-control" id="sua-tenban" placeholder="Tên bàn">
-          <input type="text" id="sua-id" hidden="hidden">
-        </div>
+		<div class="form-group">
+		  <label for="exampleInputEmail1">Tên dơn vị tính</label>
+		  <input type="text" class="form-control" id="sua-tendonvitinh" placeholder="Tên đơn vị tính">
+		  <input type="text" id="sua-id" hidden="hidden">
+		</div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
@@ -110,14 +101,14 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Xoá bàn</h4>
+        <h4 class="modal-title">Xoá đơn vị tính</h4>
       </div>
       <div class="modal-body">
 		<div class="form-group">
 			<div class="alert alert-danger alert-dismissible">
 				<h4><i class="icon fa fa-ban"></i> Chú ý!</h4>
-				Bạn có chắc xoá bàn này ?<br>
-				Tên bàn: <span><u id="xoa-tentang"></u></span>
+				Bạn có chắc xoá đơn vị tính này ?<br>
+				Tên đơn vị tính: <span><u id="xoa-tendonvitinh"></u></span>
 			</div>
 		  <input type="text" id="xoa-id" hidden="hidden">
 		</div>
@@ -133,8 +124,8 @@
 </div>
 <!-- /.modal -->
 <script type="text/javascript">
-	document.getElementById('ban').classList.add("active");
-	document.getElementById('tieudetrang').innerHTML = "Bàn";
+	document.getElementById('khachhang').classList.add("active");
+	document.getElementById('tieudetrang').innerHTML = "Khách hàng";
     $('#example1').DataTable({
       'paging'      : true,
       'ordering'    : true,
@@ -159,34 +150,32 @@
 	}
     });
     $(document).on('click','.sua',function(){
-    	$('#sua-tenban').val($(this).parent('td').parent('tr').find('td:nth-child(1)').text().trim());
-    	$('#sua-tang').val($(this).parent('td').parent('tr').find('td:nth-child(2)').attr('ltn').trim());
-      $('#sua-id').val($(this).parent('td').attr('ltn').trim());
+    	$('#sua-tendonvitinh').val($(this).parent('td').parent('tr').find('td:nth-child(1)').text().trim());
+    	$('#sua-id').val($(this).parent('td').attr('ltn').trim());
     	$('#modal-sua').modal('show');
     });
     $(document).on('click','.xoa',function(){
-    	$('#xoa-tentang').text($(this).parent('td').parent('tr').find('td:nth-child(1)').text().trim());
+    	$('#xoa-tendonvitinh').text($(this).parent('td').parent('tr').find('td:nth-child(1)').text().trim());
     	$('#xoa-id').val($(this).parent('td').attr('ltn').trim());
     	$('#modal-xoa').modal('show');
     });
     $(document).on('click','#btn-them',function(){
-    	var tenban = $('#them-tenban').val();
-    	if (!tenban) {
-    		tbdanger('Vui lòng điền tên bàn');
+    	var ten = $('#them-tendonvitinh').val();
+    	if (!ten) {
+    		tbdanger('Vui lòng điền tên nhóm');
     		return false;
     	}
         $.ajax({
-            url: 'ajax/ajThemban.php',
+            url: 'ajax/ajThemdonvitinh.php',
             type: 'POST',
             data: {
-            	ban:tenban,
-              idt:$('#them-tang').val()
+            	ten:ten
             },
             success: function (data) {
             	var kq = $.parseJSON(data);
             	if (kq.trangthai) {
             		$('#modal-them').modal('hide');
-            		tbsuccess('Đã thêm bàn');
+            		tbsuccess('Đã thêm đơn vị tính');
             		setTimeout(function(){
 				        location.reload();
 				    }, 2000);
@@ -198,24 +187,23 @@
         });
     });
     $(document).on('click','#btn-sua',function(){
-    	var tenban = $('#sua-tenban').val();
-    	if (!tenban) {
-    		tbdanger('Vui lòng điền tên bàn');
+    	var ten = $('#sua-tendonvitinh').val();
+    	if (!ten) {
+    		tbdanger('Vui lòng điền tên đơn vị tính');
     		return false;
     	}
         $.ajax({
-            url: 'ajax/ajSuaban.php',
+            url: 'ajax/ajSuadonvitinh.php',
             type: 'POST',
             data: {
-            	ban:tenban,
-              idt:$('#sua-tang').val(),
-            	idb:$('#sua-id').val()
+            	ten:ten,
+            	iddvt:$('#sua-id').val()
             },
             success: function (data) {
             	var kq = $.parseJSON(data);
             	if (kq.trangthai) {
             		$('#modal-sua').modal('hide');
-            		tbsuccess('Đã sửa bàn');
+            		tbsuccess('Đã sửa đơn vị tính');
             		setTimeout(function(){
 				        location.reload();
 				    }, 2000);
@@ -228,7 +216,7 @@
     });
     $(document).on('click','#btn-xoa',function(){
         $.ajax({
-            url: 'ajax/ajXoaban.php',
+            url: 'ajax/ajXoanhommathang.php',
             type: 'POST',
             data: {
             	id:$('#xoa-id').val()
@@ -237,7 +225,7 @@
             	var kq = $.parseJSON(data);
             	if (kq.trangthai) {
             		$('#modal-xoa').modal('hide');
-            		tbsuccess('Đã xoá khu vực / tầng / lầu');
+            		tbsuccess('Đã xoá nhóm mặt hàng');
             		setTimeout(function(){
 				        location.reload();
 				    }, 2000);

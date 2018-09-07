@@ -78,13 +78,15 @@
                 <li id="trangchinh"><a href="#"><i class="fa fa-dashboard"></i> <span>Trang chính</span></a></li>
                 <hr style="border-top: 1px dotted #40494e;margin-top: 5px;margin-bottom: 5px;">
                 <li id="tanglau"><a href="?p=tanglau"><i class="fa fa-align-right"></i> <span>Khu vực / Tầng / Lầu</span></a></li>
-                <li id="ban"><a href="?p=ban"><i class="fa fa-wheelchair"></i> <span>Bàn</span></a></li>
+                <hr style="border-top: 1px dotted #40494e;margin-top: 5px;margin-bottom: 5px;">
+                <li id="nhaphang"><a href="?p=nhaphang"><i class="fa fa-archive"></i> <span>Nhập hàng</span></a></li>
+                <li id="xuathang"><a href="?p=xuathang"><i class="fa fa-dropbox"></i> <span>Xuất hàng</span></a></li>
                 <hr style="border-top: 1px dotted #40494e;margin-top: 5px;margin-bottom: 5px;">
                 <li id="nhommathang"><a href="?p=nhommathang"><i class="fa fa-th-large"></i> <span>Nhóm mặt hàng</span></a></li>
                 <li id="mathang"><a href="?p=mathang"><i class="fa fa-coffee"></i> <span>Mặt hàng</span></a></li>
                 <li id="donvitinh"><a href="?p=donvitinh"><i class="fa fa-balance-scale"></i> <span>Đơn vị tính</span></a></li>
                 <hr style="border-top: 1px dotted #40494e;margin-top: 5px;margin-bottom: 5px;">
-                <li id="nhansu"><a href="#"><i class="fa fa-users"></i> <span>Nhân sự</span></a></li>
+                <li id="khachhang"><a href="?p=khachhang"><i class="fa fa-users"></i> <span>Khách hàng</span></a></li>
                 <hr style="border-top: 1px dotted #40494e;margin-top: 5px;margin-bottom: 5px;">
                 <li id="cauhinh"><a href="#"><i class="fa fa-cog"></i> <span>Cấu hình</span></a></li>
                 <li id="thongke"><a href="#"><i class="fa fa-bar-chart"></i> <span>Thống kê</span></a></li>
@@ -108,9 +110,6 @@
         			case 'tanglau':
         				require_once "control/tanglau.php";
         				break;
-                    case 'ban':
-                        require_once "control/ban.php";
-                        break;
                     case 'nhommathang':
                         require_once "control/nhommathang.php";
                         break;
@@ -119,6 +118,9 @@
                         break;
                     case 'donvitinh':
                         require_once "control/donvitinh.php";
+                        break;
+                    case 'khachhang':
+                        require_once "control/khachhang.php";
                         break;
         		}
         	}
