@@ -1,8 +1,7 @@
 <script src="../public/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="../public/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 <div class="row">
-    <div class="col-md-1"></div>
-		<div class="col-md-10">
+		<div class="col-md-12">
           <div class="box box-primary">
             <!-- /.box-header -->
             <div class="box-body">
@@ -46,7 +45,6 @@
             <!-- /.box-body -->
           </div>
 		</div>
-    <div class="col-md-1"></div>
 </div>
 <div class="modal fade" id="modal-them">
   <div class="modal-dialog" role="document">
@@ -58,9 +56,25 @@
       </div>
       <div class="modal-body">
 		<div class="form-group">
-		  <label for="exampleInputEmail1">Tên đơn vị tính</label>
-		  <input type="text" class="form-control" id="them-tendonvitinh" placeholder="Tên đơn vị tính">
+		  <label for="exampleInputEmail1">Tên khách hàng</label>
+		  <input type="text" class="form-control" id="them-tenkhachhang" placeholder="Tên khách hàng">
 		</div>
+    <div class="form-group">
+      <label for="exampleInputEmail1">Bí danh</label>
+      <input type="text" class="form-control" id="them-bidanh" placeholder="Bí danh">
+    </div>
+    <div class="form-group">
+      <label for="exampleInputEmail1">Điện thoại</label>
+      <input type="text" class="form-control" id="them-dienthoai" placeholder="Điện thoại">
+    </div>
+    <div class="form-group">
+      <label for="exampleInputEmail1">Mã số thuế</label>
+      <input type="text" class="form-control" id="them-masothue" placeholder="Mã số thuế">
+    </div>
+    <div class="form-group">
+      <label for="exampleInputEmail1">Địa chỉ</label>
+      <input type="text" class="form-control" id="them-diachi" placeholder="Địa chỉ">
+    </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>

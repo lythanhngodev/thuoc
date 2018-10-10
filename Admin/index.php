@@ -163,6 +163,10 @@
             delay: 2000
         });
     }
+    /*setTimeout(function(){
+        $('.sidebar-toggle').click();
+    },1000);
+    */
 </script>
 </body>
 </html>

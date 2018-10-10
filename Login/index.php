@@ -52,7 +52,6 @@
   <!-- /.login-logo -->
   <div class="login-box-body">
     <p class="login-box-msg">Đăng nhập hệ thống</p>
-
     <form method="post">
       <div class="form-group has-feedback">
         <input type="text" class="form-control" placeholder="Tên đăng nhập" name="tdn">

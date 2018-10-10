@@ -1,6 +1,6 @@
 <?php 
 $qlma = array(
-	'HOST' => 'http://localhost:1234/'
+	'HOST' => 'http://localhost/thuoc/'
 );
 /**
  * 
@@ -12,7 +12,7 @@ class clsKetnoi
 	private $tendangnhap='root';
 	private $matkhau='1234:)))';
 	private $csdl='thuoc';
-	private $host="http://localhost:1234/";
+	private $host="http://localhost/thuoc/";
 	function __construct()
 	{
 			$this->conn=mysqli_connect($this->maychu, $this->tendangnhap, $this->matkhau);
