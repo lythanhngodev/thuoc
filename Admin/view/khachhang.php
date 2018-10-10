@@ -9,6 +9,7 @@
               <table id="example1" class="table table-hover table-bordered table-striped">
                 <thead>
                 <tr>
+                  <th style="width: 50px;">TT</th>
                   <th>Tên khách hàng</th>
                   <th>Bí danh</th>
                   <th>Điện thoại</th>
@@ -18,9 +19,10 @@
                 </tr>
                 </thead>
                 <tbody>
-                <?php
+                <?php $stt=1;
                 while ($row=mysqli_fetch_assoc($khachhang)) { ?>
 	                <tr>
+                    <th><?php echo $stt; ?></th>
 	                  <td><?php echo $row['TENKH']; ?></td>
                     <td><?php echo $row['BIETHIEU']; ?></td>
                     <td><?php echo $row['SDT']; ?></td>
@@ -28,7 +30,7 @@
                     <td><?php echo $row['DIACHI']; ?></td>
 	                  <td ltn="<?php echo $row['IDKH'] ?>"><button class="btn btn-primary btn-sm sua">Sửa</button>&ensp;<button class="btn btn-danger btn-sm xoa">Xoá</button></td>
 	                </tr>
-                <?php } ?>
+                <?php $stt++; } ?>
                 </tbody>
                 <tfoot>
                 <tr>
@@ -52,7 +54,7 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Thêm đơn vị tính</h4>
+        <h4 class="modal-title">Thêm khách hàng</h4>
       </div>
       <div class="modal-body">
 		<div class="form-group">
@@ -91,14 +93,29 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Sửa đơn vị tính</h4>
+        <h4 class="modal-title">Sửa khách hàng</h4>
       </div>
       <div class="modal-body">
-		<div class="form-group">
-		  <label for="exampleInputEmail1">Tên dơn vị tính</label>
-		  <input type="text" class="form-control" id="sua-tendonvitinh" placeholder="Tên đơn vị tính">
-		  <input type="text" id="sua-id" hidden="hidden">
-		</div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Tên khách hàng</label>
+          <input type="text" class="form-control" id="sua-tenkhachhang" placeholder="Tên khách hàng">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Bí danh</label>
+          <input type="text" class="form-control" id="sua-bidanh" placeholder="Bí danh">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Điện thoại</label>
+          <input type="text" class="form-control" id="sua-dienthoai" placeholder="Điện thoại">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Mã số thuế</label>
+          <input type="text" class="form-control" id="sua-masothue" placeholder="Mã số thuế">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Địa chỉ</label>
+          <input type="text" class="form-control" id="sua-diachi" placeholder="Địa chỉ">
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
@@ -164,7 +181,11 @@
 	}
     });
     $(document).on('click','.sua',function(){
-    	$('#sua-tendonvitinh').val($(this).parent('td').parent('tr').find('td:nth-child(1)').text().trim());
+    	$('#sua-tenkhachhang').val($(this).parent('td').parent('tr').find('td:nth-child(2)').text().trim());
+      $('#sua-bidanh').val($(this).parent('td').parent('tr').find('td:nth-child(3)').text().trim());
+      $('#sua-dienthoai').val($(this).parent('td').parent('tr').find('td:nth-child(4)').text().trim());
+      $('#sua-masothue').val($(this).parent('td').parent('tr').find('td:nth-child(5)').text().trim());
+      $('#sua-diachi').val($(this).parent('td').parent('tr').find('td:nth-child(6)').text().trim());
     	$('#sua-id').val($(this).parent('td').attr('ltn').trim());
     	$('#modal-sua').modal('show');
     });
