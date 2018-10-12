@@ -17,11 +17,13 @@
                     <th class="text-center">TT</th>
                     <th>Tên mặt hàng</th>
                     <th>Diễn giải</th>
+                    <th>Số lô</th>
                     <th>Nhóm hàng</th>
                     <th>Đơn vị tính</th>
                     <th>Giá nhập</th>
                     <th>Giá bán</th>
                     <th>Số lượng</th>
+                    <th>HSD</th>
                     <th>Ghi chú</th>
                     <th>Thao tác</th>
                   </tr>
@@ -33,11 +35,13 @@
                       <td class="text-center"><?php echo $stt; ?></td>
                       <td><?php echo $row['TENMH']; ?></td>
                       <td><?php echo $row['DIENGIAI'] ?></td>
+                      <td><?php echo $row['SOLO'] ?></td>
                       <td ltn="<?php echo $row['IDNH'] ?>"><?php echo $row['TENNH']; ?></td>
                       <td ltn="<?php echo $row['IDDVT'] ?>"><?php echo $row['TENDVT']; ?></td>
                       <td class="text-right"><?php echo $row['GIANHAP']; ?></td>
                       <td class="text-right"><?php echo $row['GIABAN']; ?></td>
                       <td class="text-right"><?php echo $row['SOLUONG']; ?></td>
+                      <td><?php echo $row['HSD']; ?></td>
                       <td><?php echo $row['GHICHU']; ?></td>
                       <td ltn="<?php echo $row['IDMH'] ?>"><button class="btn btn-primary btn-sm sua">Sửa</button>&ensp;<button class="btn btn-danger btn-sm xoa">Xoá</button></td>
                     </tr>
@@ -48,6 +52,7 @@
                     <th class="text-center">TT</th>
                     <th>Tên mặt hàng</th>
                     <th>Diễn giải</th>
+                    <th>Số lô</th>
                     <th>Nhóm hàng</th>
                     <th>Đơn vị tính</th>
                     <th>Giá nhập</th>
@@ -82,6 +87,10 @@
           <input type="text" class="form-control" id="them-diengiai" placeholder="Diễn giải">
         </div>
         <div class="form-group">
+          <label for="exampleInputEmail1">Số lô</label>
+          <input type="text" class="form-control" id="them-solo" placeholder="Số lô">
+        </div>
+        <div class="form-group">
           <label for="exampleInputEmail1">Nhóm mặt hàng</label>
           <select class="form-control" id="them-nhommathang">
             <?php while ($row = mysqli_fetch_assoc($nhommathang)) { ?>
@@ -104,6 +113,10 @@
         <div class="form-group">
           <label for="exampleInputEmail1">Giá bán</label>
           <input type="text" class="form-control" id="them-giaban" placeholder="Giá bán">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Hạn sử dụng</label>
+          <input type="date" class="form-control" id="them-hansudung">
         </div>
         <div class="form-group">
           <label for="exampleInputEmail1">Ghi chú</label>
@@ -137,6 +150,10 @@
           <input type="text" class="form-control" id="sua-diengiai" placeholder="Diễn giải">
         </div>
         <div class="form-group">
+          <label for="exampleInputEmail1">Số lô</label>
+          <input type="text" class="form-control" id="sua-solo" placeholder="Số lô">
+        </div>
+        <div class="form-group">
           <label for="exampleInputEmail1">Nhóm mặt hàng</label>
           <select class="form-control" id="sua-nhommathang">
             <?php while ($row = mysqli_fetch_assoc($nhommathang2)) { ?>
@@ -159,6 +176,10 @@
         <div class="form-group">
           <label for="exampleInputEmail1">Giá bán</label>
           <input type="text" class="form-control" id="sua-giaban" placeholder="Giá bán">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Hạn sử dụng</label>
+          <input type="date" class="form-control" id="sua-hansudung">
         </div>
         <div class="form-group">
           <label for="exampleInputEmail1">Ghi chú</label>
@@ -248,11 +269,13 @@
     $(document).on('click','.sua',function(){
     	$('#sua-tenmathang').val($(this).parent('td').parent('tr').find('td:nth-child(2)').text().trim());
       $('#sua-diengiai').val($(this).parent('td').parent('tr').find('td:nth-child(3)').text().trim());
-      $('#sua-gianhap').val($(this).parent('td').parent('tr').find('td:nth-child(6)').text().trim());
-      $('#sua-giaban').val($(this).parent('td').parent('tr').find('td:nth-child(7)').text().trim());
-      $('#sua-ghichu').val($(this).parent('td').parent('tr').find('td:nth-child(9)').text().trim());
-    	$('#sua-nhommathang').val($(this).parent('td').parent('tr').find('td:nth-child(4)').attr('ltn')).change();
-      $('#sua-donvitinh').val($(this).parent('td').parent('tr').find('td:nth-child(5)').attr('ltn')).change();
+      $('#sua-solo').val($(this).parent('td').parent('tr').find('td:nth-child(4)').text().trim());
+      $('#sua-gianhap').val($(this).parent('td').parent('tr').find('td:nth-child(7)').text().trim());
+      $('#sua-giaban').val($(this).parent('td').parent('tr').find('td:nth-child(8)').text().trim());
+      $('#sua-hansudung').val($(this).parent('td').parent('tr').find('td:nth-child(10)').text().trim());
+      $('#sua-ghichu').val($(this).parent('td').parent('tr').find('td:nth-child(11)').text().trim());
+    	$('#sua-nhommathang').val($(this).parent('td').parent('tr').find('td:nth-child(5)').attr('ltn')).change();
+      $('#sua-donvitinh').val($(this).parent('td').parent('tr').find('td:nth-child(6)').attr('ltn')).change();
       $('#sua-id').val($(this).parent('td').attr('ltn').trim());
     	$('#modal-sua').modal('show');
     });
@@ -272,6 +295,11 @@
         tbdanger('Vui lòng chọn đơn vị tính');
         return false;
       }
+      var hsd = $('#them-hansudung').val();
+      if (!hsd) {
+        tbdanger('Vui lòng nhập hạn sử dụng');
+        return false;
+      }
         $.ajax({
             url: 'ajax/ajThemmathang.php',
             type: 'POST',
@@ -280,8 +308,10 @@
               idnh:$('#them-nhommathang').val().trim(),
               dvt: dvt,
               diengiai: $('#them-diengiai').val().trim(),
+              solo: $('#them-solo').val().trim(),
               gianhap: $('#them-gianhap').val(),
               giaban: $('#them-giaban').val(),
+              hsd: $('#them-hansudung').val(),
               ghichu: $('#them-ghichu').val().trim()
             },
             success: function (data) {
@@ -310,6 +340,11 @@
         tbdanger('Vui lòng chọn đơn vị tính');
         return false;
       }
+      var hsd = $('#sua-hansudung').val();
+      if (!hsd) {
+        tbdanger('Vui lòng nhập hạn sử dụng');
+        return false;
+      }
         $.ajax({
             url: 'ajax/ajSuamathang.php',
             type: 'POST',
@@ -319,8 +354,10 @@
               idnh:$('#sua-nhommathang').val().trim(),
               dvt: dvt,
               diengiai: $('#sua-diengiai').val().trim(),
+              solo: $('#sua-solo').val().trim(),
               gianhap: $('#sua-gianhap').val(),
               giaban: $('#sua-giaban').val(),
+              hsd: $('#sua-hansudung').val(),
               ghichu: $('#sua-ghichu').val().trim()
             },
             success: function (data) {

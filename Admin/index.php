@@ -88,7 +88,7 @@
                 <hr style="border-top: 1px dotted #40494e;margin-top: 5px;margin-bottom: 5px;">
                 <li id="khachhang"><a href="?p=khachhang"><i class="fa fa-users"></i> <span>Khách hàng</span></a></li>
                 <hr style="border-top: 1px dotted #40494e;margin-top: 5px;margin-bottom: 5px;">
-                <li id="cauhinh"><a href="#"><i class="fa fa-cog"></i> <span>Cấu hình</span></a></li>
+                <li id="cauhinh"><a href="?p=cauhinh"><i class="fa fa-cog"></i> <span>Cấu hình</span></a></li>
                 <li id="thongke"><a href="#"><i class="fa fa-bar-chart"></i> <span>Thống kê</span></a></li>
                 <li id="thongtincanhan"><a href="?p=thongtincanhan"><i class="fa fa-user"></i> <span>Thông tin cá nhân</span></a></li>
             </ul>
@@ -122,6 +122,15 @@
                     case 'khachhang':
                         require_once "control/khachhang.php";
                         break;
+                    case 'cauhinh':
+                        require_once "control/cauhinh.php";
+                        break;
+                    case 'nhaphang':
+                        require_once "control/nhaphang.php";
+                        break;
+                    case 'thongtincanhan':
+                        require_once "control/thongtincanhan.php";
+                        break;
         		}
         	}
         	else
@@ -135,7 +144,7 @@
         <div class="pull-right hidden-xs">
             <b>Phiên bản</b> 1.1.0
         </div>
-        <strong>Copyright &copy; 2018 <a href="https://adminlte.io">Mr. Ngô Thanh Lý</a>.</strong>
+        <strong>Copyright &copy; 2018 <a>Mr. Ngô Thanh Lý</a>.</strong>
     </footer>
 </div>
 <!-- ./wrapper -->
@@ -163,10 +172,10 @@
             delay: 2000
         });
     }
-    /*setTimeout(function(){
+    setTimeout(function(){
         $('.sidebar-toggle').click();
-    },1000);
-    */
+    },500);
+    
 </script>
 </body>
 </html>
