@@ -11,6 +11,8 @@
 			$kn->golink($qlma['HOST']."Login");
 		else{
 			$_SESSION['quyen']=$result['Q'];
+			$_SESSION['idtk']=$result['IDTK'];
+			$_SESSION['hoten']=$result['HT'];
 		}
 	}
 	else{

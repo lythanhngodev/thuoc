@@ -1,4 +1,4 @@
-<?php require_once "checklogin.php" ?>
+<?php require_once "checklogin.php";date_default_timezone_set('Asia/Ho_Chi_Minh'); ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -127,6 +127,9 @@
                         break;
                     case 'nhaphang':
                         require_once "control/nhaphang.php";
+                        break;
+                    case 'xuathang':
+                        require_once "control/xuathang.php";
                         break;
                     case 'thongtincanhan':
                         require_once "control/thongtincanhan.php";

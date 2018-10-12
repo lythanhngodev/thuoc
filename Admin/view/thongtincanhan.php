@@ -73,27 +73,36 @@
 	document.getElementById('tieudetrang').innerHTML = "Thông tin cá nhân";
 
   $(document).on('click','#btn-sua',function(){
-  	var ten = $('#sua-ten').val();
-    var tdn = $('#sua-tdn').val();
-    var sdt = $('#sua-sdt').val();
-    var diachi = $('#sua-dc').val();
-    var mail = $('#sua-mail').val();
+  	var ten = $('#sua-ten').val().trim();
+    var tdn = $('#sua-tdn').val().trim();
+    var sdt = $('#sua-sdt').val().trim();
+    var diachi = $('#sua-dc').val().trim();
+    var mail = $('#sua-mail').val().trim();
+    if (jQuery.isEmptyObject(ten)) {
+        tbdanger('Vui lòng điền họ tên');
+        return;
+    }
+    if (jQuery.isEmptyObject(ten)) {
+        tbdanger('Vui lòng điền họ tên');
+        return;
+    }
+    if (jQuery.isEmptyObject(tdn)) {
+        tbdanger('Vui lòng điền tên đăng nhập');
+        return;
+    }
     $.ajax({
-        url: 'ajax/ajSuacauhinh.php',
+        url: 'ajax/ajSuathongtincanhan.php',
         type: 'POST',
         data: {
         	ten:ten,
-          mst:mst,
-          dcmail:dcmail,
+          tdn:tdn,
+          mail:mail,
           sdt:sdt,
-          diachi:diachi,
-          fax:fax,
-          stk:stknganhang
+          diachi:diachi
         },
         success: function (data) {
         	var kq = $.parseJSON(data);
         	if (!kq.trangthai) {
-        		
         		setTimeout(function(){
 		        location.reload();
 		    }, 2000);
@@ -101,6 +110,47 @@
         	else{
         		tbsuccess('Đã lưu thông tin');
         	}
+        }
+    });
+  });
+  $(document).on('click','#btn-doimatkhau',function(){
+    var mkc = $('#sua-mkc').val().trim();
+    var mkm = $('#sua-mkm').val().trim();
+    var mkm2 = $('#sua-mkm2').val().trim();
+    if (jQuery.isEmptyObject(mkc)) {
+        tbdanger('Vui lòng điền mật khẩu hiện tại');
+        return;
+    }
+    if (jQuery.isEmptyObject(mkm)) {
+        tbdanger('Vui lòng điền mật khẩu mới');
+        return;
+    }
+    if (jQuery.isEmptyObject(mkm2)) {
+        tbdanger('Vui lòng điền mật khẩu xác nhận');
+        return;
+    }
+    if (mkm!=mkm2) {
+        tbdanger('Mật khẩu xác nhận không đúng');
+        return;
+    }
+    $.ajax({
+        url: 'ajax/ajSuamatkhau.php',
+        type: 'POST',
+        data: {
+          mkc:mkc,
+          mkm:mkm,
+          mkm2:mkm2
+        },
+        success: function (data) {
+          var kq = $.parseJSON(data);
+          if (!kq.trangthai) {
+            setTimeout(function(){
+            location.reload();
+        }, 2000);
+          }
+          else{
+            tbsuccess('Đã lưu mật khẩu mới');
+          }
         }
     });
   });
