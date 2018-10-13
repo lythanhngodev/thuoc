@@ -230,6 +230,14 @@ body {
       }
     });
     $(document).on('click','#themmoi',function(){
+      var lston = $('#slcon').text();
+      slton = parseInt(lston);
+      var lsban = $('#them-soluong').val();
+      lsban = parseInt(lsban);
+      if (slton-lsban<0) {
+        tbdanger('Số lượng xuất không hợp lệ hiện kho chỉ còn '+lston);
+        return;
+      }
       var tr = "                <tr>\n" +
           "                  <td>"+$('#them-tenmathang').val()+"</td>\n" +
           "                  <td>"+$('#them-diengiai').val()+"</td>\n" +
@@ -244,60 +252,13 @@ body {
               "<td><button class=\"btn btn-sm btn-danger xoahang\"><i class=\"fa fa-close\"></i></button></td>\n"+
           "                </tr>";
       $('#banghang').append(tr);
-      var lston = $('#slcon').text();
-      slton = parseInt(lston);
     });
     $('#banghang').on('click','.xoahang',function(){
       $(this).parents('tr').remove();
     });
-    $(document).on('click', '#nhaphang',function(){
-      var table = $('#bang-nhaphang');
-      var data = [];
-      table.find('tr:not(:first)').each(function(i, row) {
-        var cols = [];
-        $(this).find('td:not(:last) input').each(function(i, col) {
-          cols.push($(this).val());
-        });
-        data.push(cols);
-      });
-      if(jQuery.isEmptyObject(data)){
-          tbdanger('Vui lòng nhập mặt hàng');
-          return;
-      }
-      var check = 0;
-      data.map(function(d){
-        d.map(function(di){
-          if(jQuery.isEmptyObject(di)){
-              check = 1;
-          }
-        });
-      });
-      if (check==1) {
-        tbdanger('Vui lòng điền đầy đủ thông tin');
-        return;
-      }
-      $.ajax({
-          url: 'ajax/ajNhaphang.php',
-          type: 'POST',
-          data: {
-            data:data
-          },
-          success: function (data) {
-            var kq = $.parseJSON(data);
-            if (kq.trangthai) {
-              tbsuccess('Đã nhập hàng thành công');
-              setTimeout(function(){
-              location.reload();
-          }, 2000);
-            }
-            else{
-              tbdanger('Lỗi!, Vui lòng kiểm tra lại thông tin');
-            }
-          }
-      });
-    });
     $(document).on('click','#xuathang',function(){
       var tenkh = $('#them-tenkh').val().trim();
+      var idkh = $('#them-idkh').val().trim();
       var bidanh = $('#them-bidanh').val().trim();
       var diachi = $('#them-diachi').val().trim();
       var mst = $('#them-masothue').val().trim();
@@ -319,10 +280,27 @@ body {
           tbdanger('Chưa có mặt hàng nào được chọn, vui lòng chọn mặt hàng');
           return;
       }
-
-    });
-    $(document).on('click','#xuathang',function(){
-
+      $.ajax({
+          url: 'ajax/ajXuathang.php',
+          type: 'POST',
+          data: {
+            data:data,
+            idkh:idkh,
+            shd:$('#them-sohoadon').val()
+          },
+          success: function (data) {
+            var kq = $.parseJSON(data);
+            if (kq.trangthai) {
+              tbsuccess('Đã xuất hàng thành công');
+              setTimeout(function(){
+              location.reload();
+          }, 2000);
+            }
+            else{
+              tbdanger('Lỗi!, Vui lòng kiểm tra lại thông tin');
+            }
+          }
+      });
     });
     function thoigian(){
       setTimeout(function(){
