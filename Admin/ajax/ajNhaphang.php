@@ -35,7 +35,7 @@
 					else{
 						$chuoidvt = "INSERT INTO donvitinh (TENDVT) VALUES ('".mysqli_real_escape_string($kn->conn,$data[$i][1])."');";
 						$qrdvt = mysqli_query($kn->conn,$chuoidvt);
-						$iddvt = mysqli_insert_id($kn->$conn);
+						$iddvt = mysqli_insert_id($kn->conn);
 					}
 					$iddvt = intval($iddvt);
 					$str = "

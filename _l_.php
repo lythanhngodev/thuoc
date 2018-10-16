@@ -2,6 +2,7 @@
 $qlma = array(
 	'HOST' => 'http://localhost/thuoc/'
 );
+date_default_timezone_set('Asia/Ho_Chi_Minh');
 /**
  * 
  */

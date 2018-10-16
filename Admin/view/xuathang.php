@@ -112,7 +112,8 @@ body {
               <label for="exampleInputEmail1">%CK</label>
               <input type="number" class="form-control" id="them-ck" value="0" min="1" >
             </div>
-            <center><button class="btn btn-success" id="themmoi">Thêm</button></center>
+            <div class="col-md-12"><hr></div>
+            <center><button class="btn btn-success" id="themmoi"><i class="fa fa-arrow-right" aria-hidden="true"></i></button></center>
           </div>
         </div>
       </div>
@@ -157,8 +158,17 @@ body {
               <label for="exampleInputEmail1">Địa chỉ KH (*)</label>
               <input type="text" class="form-control" id="them-diachi">
             </div>
+            <div class="form-group col-md-4">
+              <label for="exampleInputEmail1">Tiền khách trả</label>
+              <input type="number" class="form-control" id="them-tienkhachtra" value="0" min="0">
+            </div>
+            <div class="form-group col-md-8">
+              <label for="exampleInputEmail1">Ghi chú</label>
+              <input type="text" class="form-control" id="them-ghichu">
+            </div>
               <table id="banghang" class="table table-bordered table-striped">
                 <tr>
+                  <th hidden="hidden">IDMH</th>
                   <th>MH</th>
                   <th>Diễn giải</th>
                   <th>ĐVT</th>
@@ -172,12 +182,65 @@ body {
                   <th></th>
                 </tr>
               </table>
+              <div class="col-md-7"></div>
+              <div class="col-md-5" style="font-size: 90%;border: 1px dotted #CA6938;background: #fff599;">
+                <br>
+                <p><i>Số tiền chiếc khấu:</i> <span id="tienchieckhau" style="float: right;font-weight: bold;color: red;">0</span></p>
+                <p><i>Cộng tiền hàng (Đã trừ CK):</i> <span id="tienhangtruck" style="float: right;font-weight: bold;color: red;">0</span></p>
+                <p><i>Tiền thuế GTGT:</i> <span id="tienthue" style="float: right;font-weight: bold;color: red;">0</span></p>
+                <p><i>Tổng tiền thanh toán:</i> <span id="tongtien" style="float: right;font-weight: bold;color: red;">0</span></p>
+              </div>
               <br>
-              <button class="btn btn-primary" id="xuathang">Xuất &amp; In hóa đơn</button>
+
+              <button class="btn btn-primary" id="xuathang"><i class="fa fa-check" aria-hidden="true"></i> Bán hàng &amp; In hóa đơn</button>
             </div>
             <!-- /.box-body -->
           </div>
 		</div>
+    <div class="col-md-12">
+          <div class="box box-primary">
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th>TT</th>
+                  <th>Tên mặt hàng</th>
+                  <th>Số lô</th>
+                  <th>HSD</th>
+                  <th>ĐVT</th>
+                  <th>Số lượng</th>
+                </tr>
+                </thead><!--
+                <tbody>
+                <?php $stt=1;
+                while ($row=mysqli_fetch_assoc($xuathang)) { ?>
+                  <tr>
+                    <th><?php echo $stt; ?></th>
+                    <td><?php echo $row['TENMH']; ?></td>
+                    <td><?php echo $row['SOLO']; ?></td>
+                    <td><?php echo $row['HSD']; ?></td>
+                    <td><?php echo $row['TENDVT']; ?></td>
+                    <td><?php echo $row['SOLUONG']; ?></td>
+                  </tr>
+                <?php $stt++; } ?>
+                </tbody>-->
+                <tfoot>
+                <tr>
+                  <th>TT</th>
+                  <th>Tên mặt hàng</th>
+                  <th>Số lô</th>
+                  <th>HSD</th>
+                  <th>ĐVT</th>
+                  <th>Số lượng</th>
+                </tr>
+                </tfoot>
+              </table>
+
+            </div>
+            <!-- /.box-body -->
+          </div>
+    </div>
 </div>
 <!-- /.modal -->
 <script type="text/javascript">
@@ -239,6 +302,7 @@ body {
         return;
       }
       var tr = "                <tr>\n" +
+          "                  <td hidden='hidden'>"+$('#them-mathang').val()+"</td>\n" +
           "                  <td>"+$('#them-tenmathang').val()+"</td>\n" +
           "                  <td>"+$('#them-diengiai').val()+"</td>\n" +
           "                  <td>"+$('#them-dvt').val()+"</td>\n" +
@@ -252,9 +316,11 @@ body {
               "<td><button class=\"btn btn-sm btn-danger xoahang\"><i class=\"fa fa-close\"></i></button></td>\n"+
           "                </tr>";
       $('#banghang').append(tr);
+      loadlai();
     });
     $('#banghang').on('click','.xoahang',function(){
       $(this).parents('tr').remove();
+      loadlai();
     });
     $(document).on('click','#xuathang',function(){
       var tenkh = $('#them-tenkh').val().trim();
@@ -263,6 +329,7 @@ body {
       var diachi = $('#them-diachi').val().trim();
       var mst = $('#them-masothue').val().trim();
       var sdt = $('#them-sdt').val().trim();
+      var tienkhach = $('#them-tienkhachtra').val().trim();
       if (tenkh=='' || diachi=='') {
         tbdanger('Vui lòng điền đầy đủ thông tin khách hàng');
         return;
@@ -271,8 +338,8 @@ body {
       var data = [];
       table.find('tr:not(:first)').each(function(i, row) {
         var cols = [];
-        $(this).find('td:not(:last) input').each(function(i, col) {
-          cols.push($(this).val());
+        $(this).find('td:not(:last)').each(function(i, col) {
+          cols.push($(this).text());
         });
         data.push(cols);
       });
@@ -286,6 +353,7 @@ body {
           data: {
             data:data,
             idkh:idkh,
+            tienkhach:tienkhach,
             shd:$('#them-sohoadon').val()
           },
           success: function (data) {
@@ -412,9 +480,6 @@ function autocomplete(inp, arr) {
       closeAllLists(e.target);
   });
 }
-
-/*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
-
 $(document).on('keydown','#them-tenkh', function(){
   var ten = $(this).val();
   var mathangajax;
@@ -450,4 +515,52 @@ $(document).on('click','#them-tenkhautocomplete-list div', function(){
       }
   });
 });
+function dauphay(number){
+  return (number).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+}
+function loadlai(){
+      // tiền hàng trừ chiếc khấu
+      $('#tienchieckhau').text('0');
+      // Cộng tiền hàng (Đã trừ CK)
+      $('#tienhangtruck').text('0');
+      // Tiền thuế GTGT
+      $('#tienthue').text('0');
+      // Tổng tiền thanh toán
+      $('#tongtien').text('0');
+      var table = $('#banghang');
+      var data = [];
+      table.find('tr:not(:first)').each(function(i, row) {
+        var cols = [];
+        $(this).find('td:not(:last)').each(function(i, col) {
+          cols.push($(this).text());
+        });
+        data.push(cols);
+      });
+      if(jQuery.isEmptyObject(data)){
+          return 0;
+      }
+      // tổng tiền
+      var tientong = 0;
+      data.map(function(d){
+        tientong+=d[6]*d[7]; 
+      });
+      // tính tiền chiếc khấu
+      var chieckhau = 0;
+      data.map(function(d){
+        chieckhau+=(d[6]*d[7])*(d[10]/100); 
+      });
+      // tính tiền VAT
+      var vat = 0;
+      data.map(function(d){
+        vat+=(d[6]*d[7])*(d[9]/100); 
+      });
+      // tiền hàng trừ chiếc khấu
+      $('#tienchieckhau').text(dauphay(chieckhau));
+      // Cộng tiền hàng (Đã trừ CK)
+      $('#tienhangtruck').text(dauphay(tientong-chieckhau));
+      // Tiền thuế GTGT
+      $('#tienthue').text(dauphay(vat));
+      // Tổng tiền thanh toán
+      $('#tongtien').text(dauphay(tientong-chieckhau-vat));
+}
 </script>

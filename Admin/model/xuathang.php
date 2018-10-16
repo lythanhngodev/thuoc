@@ -11,4 +11,8 @@
 		$idhd = intval($ex['IDHD']);
 		return $idhd;
 	} 
+	function layhangdaxuat(){
+		$kn = new clsKetnoi();
+		return $kn->query("SELECT hd.IDHD,kh.TENKH,kh.BIETHIEU,hd.NGAY FROM hoadon hd LEFT JOIN khachhang kh on hd.IDKH=kh.IDKH LEFT JOIN taikhoan tk on hd.IDTK=tk.IDTK ORDER BY hd.IDHD DESC;");
+	} 
 ?>
