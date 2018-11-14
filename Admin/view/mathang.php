@@ -2,6 +2,8 @@
 <script type="text/javascript" src="../public/bootstrap/js/select2.full.min.js"></script>
 <script src="../public/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="../public/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript" src="../public/js/jquery-ui.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../public/css/jquery-ui.min.css">
 
 <div style="margin: 0 auto;">
   <div class="row">

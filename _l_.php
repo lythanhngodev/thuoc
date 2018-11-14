@@ -1,6 +1,6 @@
 <?php 
 $qlma = array(
-	'HOST' => 'http://localhost/thuoc/'
+	'HOST' => 'http://localhost:1234/'
 );
 date_default_timezone_set('Asia/Ho_Chi_Minh');
 /**
@@ -13,7 +13,7 @@ class clsKetnoi
 	private $tendangnhap='root';
 	private $matkhau='1234:)))';
 	private $csdl='thuoc';
-	private $host="http://localhost/thuoc/";
+	private $host="http://localhost:1234/";
 	function __construct()
 	{
 			$this->conn=mysqli_connect($this->maychu, $this->tendangnhap, $this->matkhau);
@@ -24,6 +24,7 @@ class clsKetnoi
 			mysqli_query($this->conn, "set names 'utf8'");
 	}
 	function query($string){
+		//echo $string;
 		return mysqli_query($this->conn,$string);
 	}
 	function adddata($string){
