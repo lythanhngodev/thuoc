@@ -1,25 +1,27 @@
 <?php 
 $qlma = array(
-	'HOST' => "http://localhost/thuoc/"
+	'HOST' => 'http://localhost:1234/'
 );
+date_default_timezone_set('Asia/Ho_Chi_Minh');
 /**
  * 
  */
 class clsKetnoi
 {
 	public $conn;
-	private $maychu="localhost";
-	private $tendangnhap="root";
-	private $matkhau="";
-	private $csdl="thuoc";
-	private $host='http://localhost/thuoc/';
+	private $maychu='localhost:3309';
+	private $tendangnhap='root';
+	private $matkhau='1234:)))';
+	private $csdl='thuoc';
+	private $host="http://localhost:1234/";
 	function __construct()
 	{
 			$this->conn=mysqli_connect($this->maychu, $this->tendangnhap, $this->matkhau);
 			mysqli_select_db($this->conn, $this->csdl);
-			mysqli_query($this->conn, 'SET character_set_results=utf8');
+			mysqli_query($this->conn, "SET character_set_results=utf8");
+			mb_language('uni');
 			mb_internal_encoding('UTF-8');
-			mysqli_query($this->conn, 'set names utf8');
+			mysqli_query($this->conn, "set names 'utf8'");
 	}
 	function query($string){
 		//echo $string;

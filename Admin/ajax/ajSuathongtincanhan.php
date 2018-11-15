@@ -15,6 +15,7 @@
 			$diachi = mysqli_real_escape_string($kn->conn,$_POST['diachi']);
 			$id = intval($id);
 			$kiemtra = $kn->editdata("UPDATE taikhoan SET HT='$ten',SDT='$sdt', TDN='$tdn', DC='$diachi',MAIL='$mail' WHERE IDTK = '$id'");
+			$_SESSION['tdn'] = $tdn;
 			if ($kiemtra>0) {
 				$kq['trangthai']=1;
 				echo json_encode($kq);
