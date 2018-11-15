@@ -81,7 +81,7 @@ $_SESSION['_token'] = _token(256);
                 <li id="trangchinh"><a href="#"><i class="fa fa-dashboard"></i> <span>Trang chính</span></a></li>
                 <hr style="border-top: 1px dotted #40494e;margin-top: 5px;margin-bottom: 5px;">
                 <li id="nhaphang"><a href="?p=nhaphang"><i class="fa fa-archive"></i> <span>Nhập hàng</span></a></li>
-                <li id="xuathang"><a href="?p=xuathang"><i class="fa fa-dropbox"></i> <span>Xuất hàng</span></a></li>
+                <li id="xuathang"><a href="?p=xuathang"><i class="fa fa-dropbox"></i> <span>Bán hàng</span></a></li>
                 <hr style="border-top: 1px dotted #40494e;margin-top: 5px;margin-bottom: 5px;">
                 <li id="nhommathang"><a href="?p=nhommathang"><i class="fa fa-th-large"></i> <span>Nhóm mặt hàng</span></a></li>
                 <li id="mathang"><a href="?p=mathang"><i class="fa fa-coffee"></i> <span>Mặt hàng</span></a></li>
