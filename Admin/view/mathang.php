@@ -347,6 +347,11 @@
         tbdanger('Vui lòng nhập hạn sử dụng');
         return false;
       }
+      var nmh = $('#sua-nhommathang').val();
+      if (!nmh) {
+        tbdanger('Vui lòng nhập nhóm mặt hàng');
+        return false;
+      }
         $.ajax({
             url: 'ajax/ajSuamathang.php',
             type: 'POST',

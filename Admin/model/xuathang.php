@@ -11,8 +11,15 @@
 		$idhd = intval($ex['IDHD']);
 		return $idhd;
 	} 
-	function layhangdaxuat(){
+	function xuathang(){
 		$kn = new clsKetnoi();
-		return $kn->query("SELECT hd.IDHD,kh.TENKH,kh.BIETHIEU,hd.NGAY FROM hoadon hd LEFT JOIN khachhang kh on hd.IDKH=kh.IDKH LEFT JOIN taikhoan tk on hd.IDTK=tk.IDTK ORDER BY hd.IDHD DESC;");
+		return $kn->query("
+SELECT DISTINCT hd.IDHD,hd.SOHOADON,hd.TGBAN,hd.NGAY,hd.TIENDUA,hd.GHICHU,tk.HT,kh.TENKH,(SELECT sum(cthd.DONGIA*cthd.SOLUONG-(cthd.DONGIA*cthd.SOLUONG*cthd.VAT/100)-(cthd.DONGIA*cthd.SOLUONG*cthd.CK/100)) FROM cthoadon cthd WHERE cthd.IDHD=hd.IDHD GROUP BY cthd.IDHD) as 'TONGTIEN'
+FROM hoadon hd 
+	LEFT JOIN cthoadon ct ON hd.IDHD=ct.IDHD 
+	LEFT JOIN taikhoan tk ON hd.IDTK=tk.IDTK 
+	LEFT JOIN khachhang kh ON hd.IDKH=kh.IDKH 
+ORDER BY hd.IDHD DESC;
+");
 	} 
 ?>

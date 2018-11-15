@@ -1,4 +1,7 @@
 <?php require_once "checklogin.php";date_default_timezone_set('Asia/Ho_Chi_Minh'); ?>
+<?php 
+$_SESSION['_token'] = _token(256);
+ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -76,8 +79,6 @@
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu" data-widget="tree">
                 <li id="trangchinh"><a href="#"><i class="fa fa-dashboard"></i> <span>Trang chính</span></a></li>
-                <hr style="border-top: 1px dotted #40494e;margin-top: 5px;margin-bottom: 5px;">
-                <li id="tanglau"><a href="?p=tanglau"><i class="fa fa-align-right"></i> <span>Khu vực / Tầng / Lầu</span></a></li>
                 <hr style="border-top: 1px dotted #40494e;margin-top: 5px;margin-bottom: 5px;">
                 <li id="nhaphang"><a href="?p=nhaphang"><i class="fa fa-archive"></i> <span>Nhập hàng</span></a></li>
                 <li id="xuathang"><a href="?p=xuathang"><i class="fa fa-dropbox"></i> <span>Xuất hàng</span></a></li>
@@ -175,9 +176,10 @@
             delay: 2000
         });
     }
+    /*
     setTimeout(function(){
         $('.sidebar-toggle').click();
-    },500);
+    },500);*/
     
 </script>
 </body>

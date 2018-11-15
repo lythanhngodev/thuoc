@@ -19,4 +19,14 @@
 		$kn = new clsKetnoi();
 		$kn->golink($qlma['HOST']."Login");
 	}
+function _token($sokytu){
+    $bangchucai = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+    $matkhauduoctao = array();
+    $chieudaimang = strlen($bangchucai) - 1;
+    for ($i = 0; $i < $sokytu; $i++) {
+        $n = rand(0, $chieudaimang);
+        $matkhauduoctao[] = $bangchucai[$n];
+    }
+    return implode($matkhauduoctao); //turn the array into a string
+}
  ?>

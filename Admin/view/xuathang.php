@@ -192,51 +192,48 @@ body {
               </div>
               <br>
 
-              <button class="btn btn-primary" id="xuathang"><i class="fa fa-check" aria-hidden="true"></i> Bán hàng &amp; In hóa đơn</button>
+              <button class="btn btn-primary" id="xuathang"><i class="fa fa-check" aria-hidden="true"></i> Bán hàng</button>
             </div>
             <!-- /.box-body -->
           </div>
 		</div>
-    <div class="col-md-12">
+    <div class="col-md-12" style="padding: 15px;">
           <div class="box box-primary">
-            <!-- /.box-header -->
             <div class="box-body">
-              <table id="example1" class="table table-bordered table-striped">
+              <table id="bangxuathang" class="table table-bordered table-striped">
                 <thead>
-                <tr>
+                <tr style="text-align: center !important;">
                   <th>TT</th>
-                  <th>Tên mặt hàng</th>
-                  <th>Số lô</th>
-                  <th>HSD</th>
-                  <th>ĐVT</th>
-                  <th>Số lượng</th>
+                  <th>Số HĐ</th>
+                  <th>Người bán</th>
+                  <th>Khách hàng</th>
+                  <th>Thời gian bán</th>
+                  <th>Tổng tiền</th>
+                  <th>Tiền đưa</th>
+                  <th>Còn lại</th>
+                  <th>Ghi chú</th>
+                  <th>#</th>
                 </tr>
-                </thead><!--
+                </thead>
                 <tbody>
                 <?php $stt=1;
+                $xuathang = xuathang();
                 while ($row=mysqli_fetch_assoc($xuathang)) { ?>
                   <tr>
                     <th><?php echo $stt; ?></th>
-                    <td><?php echo $row['TENMH']; ?></td>
-                    <td><?php echo $row['SOLO']; ?></td>
-                    <td><?php echo $row['HSD']; ?></td>
-                    <td><?php echo $row['TENDVT']; ?></td>
-                    <td><?php echo $row['SOLUONG']; ?></td>
+                    <td><?php echo $row['SOHOADON']; ?></td>
+                    <td><?php echo $row['HT']; ?></td>
+                    <td><?php echo $row['TENKH']; ?></td>
+                    <td><?php echo $row['NGAY']." ".$row['TGBAN']; ?></td>
+                    <td class="sotien text-right"><?php echo number_format($row['TONGTIEN'],0); ?></td>
+                    <td class="sotien text-right"><?php echo number_format($row['TIENDUA'],0); ?></td>
+                    <td class="sotien text-right"><?php echo number_format(floatval($row['TONGTIEN'])-floatval($row['TIENDUA']),0); ?></td>
+                    <td><?php echo $row['GHICHU']; ?></td>
+                    <td><a href="ajax/ajInhoadon.php?so=<?php echo $row['IDHD'] ?>" target="_blank" class="btn btn-primary btn-ms"><i class="fa fa-print"></i></a></td>
                   </tr>
                 <?php $stt++; } ?>
-                </tbody>-->
-                <tfoot>
-                <tr>
-                  <th>TT</th>
-                  <th>Tên mặt hàng</th>
-                  <th>Số lô</th>
-                  <th>HSD</th>
-                  <th>ĐVT</th>
-                  <th>Số lượng</th>
-                </tr>
-                </tfoot>
+                </tbody>
               </table>
-
             </div>
             <!-- /.box-body -->
           </div>
@@ -246,6 +243,29 @@ body {
 <script type="text/javascript">
 	document.getElementById('donvitinh').classList.add("active");
 	document.getElementById('tieudetrang').innerHTML = "Xuất hàng - Bán hàng";
+    $('#bangxuathang').DataTable({
+      'paging'      : true,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : false,
+  language: {
+    "sProcessing": "Đang xử lý...",
+    "sLengthMenu": "Xem _MENU_ mục",
+    "sZeroRecords": "Không tìm thấy dòng nào phù hợp",
+    "sInfo": "Đang xem _START_ đến _END_ trong tổng số _TOTAL_ mục",
+    "sInfoEmpty": "Đang xem 0 đến 0 trong tổng số 0 mục",
+    "sInfoFiltered": "(được lọc từ _MAX_ mục)",
+    "sInfoPostFix": "",
+    "sSearch": "Tìm:",
+    "sUrl": "",
+    "oPaginate": {
+        "sFirst": "Đầu",
+        "sPrevious": "Trước",
+        "sNext": "Tiếp",
+        "sLast": "Cuối"
+    }
+  }
+    });
     $('#bang-nhaphang').on('click','.xoahang',function(){
       $(this).parents('tr').remove();
     });
@@ -354,7 +374,8 @@ body {
             data:data,
             idkh:idkh,
             tienkhach:tienkhach,
-            shd:$('#them-sohoadon').val()
+            shd:$('#them-sohoadon').val(),
+            token: '<?php echo $_SESSION['_token']; ?>'
           },
           success: function (data) {
             var kq = $.parseJSON(data);
@@ -365,7 +386,7 @@ body {
           }, 2000);
             }
             else{
-              tbdanger('Lỗi!, Vui lòng kiểm tra lại thông tin');
+              tbdanger(kq.thongbao);
             }
           }
       });
@@ -465,6 +486,7 @@ function autocomplete(inp, arr) {
       x[i].classList.remove("autocomplete-active");
     }
   }
+
   function closeAllLists(elmnt) {
     /*close all autocomplete lists in the document,
     except the one passed as an argument:*/
@@ -515,6 +537,15 @@ $(document).on('click','#them-tenkhautocomplete-list div', function(){
       }
   });
 });
+  function printData()
+  {
+     var divToPrint=document.getElementById("noidungin");
+     newWin= window.open("");
+     newWin.document.write(divToPrint.outerHTML);
+     newWin.print();
+     newWin.close();
+  }
+
 function dauphay(number){
   return (number).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
 }
