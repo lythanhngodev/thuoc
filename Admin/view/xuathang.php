@@ -1,5 +1,7 @@
 <link rel="stylesheet" type="text/css" href="../public/bootstrap/css/select2.css">
 <script type="text/javascript" src="../public/bootstrap/js/select2.full.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../public/css/jquery-ui.min.css">
+<script type="text/javascript" src="../public/js/jquery-ui.min.js"></script>
 <script src="../public/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="../public/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 <script src="../public/js/polyfiller.js"></script>
@@ -18,53 +20,6 @@
     padding: 5px;
 }
 </style>
-<style>
-* {
-  box-sizing: border-box;
-}
-
-body {
-  font: 16px Arial;  
-}
-
-.autocomplete {
-  /*the container must be positioned relative:*/
-  position: relative;
-  display: inline-block;
-}
-
-.autocomplete-items {
-    position: absolute;
-    border: 1px solid #d4d4d4;
-    border-bottom: none;
-    border-top: none;
-    z-index: 99;
-    top: 100%;
-    left: 0;
-    right: 0;
-    max-height: 200px !important;
-    overflow: -webkit-paged-y;
-    background: #ececec;
-}
-
-.autocomplete-items div {
-  padding: 10px;
-  cursor: pointer;
-  background-color: #fff; 
-  border-bottom: 1px solid #d4d4d4; 
-}
-
-.autocomplete-items div:hover {
-  /*when hovering an item:*/
-  background-color: #e9e9e9; 
-}
-
-.autocomplete-active {
-  /*when navigating through the items using the arrow keys:*/
-  background-color: DodgerBlue !important; 
-  color: #ffffff; 
-}
-</style>
 <div class="row">
     <div class="col-md-3">
       <div class="box box-primary">
@@ -72,12 +27,8 @@ body {
           <div class="col-md-12" style="padding:0;">
             <div class="form-group col-md-12">
               <label for="exampleInputEmail1">Mặt hàng</label>
-              <select class="form-control" id="them-mathang">
-                <option value="chuachon">--- Chọn mặt hàng ---</option>
-                <?php while ($row = mysqli_fetch_assoc($mathang)) { ?>
-                <option value="<?php echo $row['IDMH'] ?>"><?php echo $row['TENMH']." . ".$row['SOLO']." . ".$row['HSD'] ?></option>  
-                <?php } ?>
-              </select>
+              <input type="text" class="form-control" id="them-mathang">
+              <input type="text" id="idmathang" hidden="hidden">
             </div>
             <input type="text" style="display: none;" class="form-control" id="them-tenmathang">
             <div class="form-group col-md-12">
@@ -140,6 +91,7 @@ body {
             <div class="form-group col-md-4">
               <label for="exampleInputEmail1">Tên KH (*)</label>
               <input type="text" class="form-control" id="them-tenkh">
+              <input type="text" hidden="hidden" id="idkh" name="">
             </div>
             <input type="text" hidden="hidden" value="" id="them-idkh" name="">
             <div class="form-group col-md-4">
@@ -229,7 +181,7 @@ body {
                     <td class="sotien text-right"><?php echo number_format($row['TIENDUA'],0); ?></td>
                     <td class="sotien text-right"><?php echo number_format(floatval($row['TONGTIEN'])-floatval($row['TIENDUA']),0); ?></td>
                     <td><?php echo $row['GHICHU']; ?></td>
-                    <td><a href="ajax/ajInhoadon.php?so=<?php echo $row['IDHD'] ?>" target="_blank" class="btn btn-primary btn-ms"><i class="fa fa-print"></i></a></td>
+                    <td><a href="ajax/ajInhoadon.php?so=<?php echo $row['IDHD'] ?>" target="_blanksd" class="btn btn-primary btn-ms"><i class="fa fa-print"></i></a></td>
                   </tr>
                 <?php $stt++; } ?>
                 </tbody>
@@ -241,8 +193,112 @@ body {
 </div>
 <!-- /.modal -->
 <script type="text/javascript">
-	document.getElementById('donvitinh').classList.add("active");
+	document.getElementById('xuathang').classList.add("active");
 	document.getElementById('tieudetrang').innerHTML = "Xuất hàng - Bán hàng";
+$(document).ready(function(){
+  $( "#them-tenkh" ).autocomplete({
+      source: function( request, response ) {
+          $.ajax({
+              dataType: "json",
+              type : 'POST',
+              url: 'ajax/ajMathang.php',
+              data: {ten:$('#them-tenkh').val()},
+              success: function(data) {
+                  $('#them-tenkh').removeClass('ui-autocomplete-loading');  
+                  response( $.map( data, function(item) {
+                    return {
+                        label: item.IDKH + ' - ' + item.TENKH,
+                        value: item.IDKH
+                    }
+                  }));
+              },
+              error: function(data) {
+                  $('#them-tenkh').removeClass('ui-autocomplete-loading');  
+              }
+          });
+      },
+      minLength: 3,
+      select: function (event, ui) {
+          $('#idkh').val(ui.item.value);
+          $('#them-tenkh').val(ui.item.label);
+          var idkh = $('#idkh').val();
+          $.ajax({
+              url: 'ajax/ajLaythongtinkhachhang.php',
+              type: 'POST',
+              data: {
+                idkh:idkh.trim()
+              },
+              success: function (data) {
+                var kq = $.parseJSON(data);
+                $('#them-masothue').val(kq.MST);
+                $('#them-sdt').val(kq.SDT);
+                $('#them-bidanh').val(kq.BIETHIEU);
+                $('#them-diachi').val(kq.DIACHI);
+                $('#them-idkh').val(kq.IDKH);
+              }
+          });
+          return false;
+      },
+  });
+  $( "#them-mathang" ).autocomplete({
+      source: function( request, response ) {
+          $.ajax({
+              dataType: "json",
+              type : 'POST',
+              url: 'ajax/ajChiTietMathang.php',
+              data: {ten:$('#them-mathang').val()},
+              success: function(data) {
+                  if(jQuery.isEmptyObject(data)){
+                    $('#idmathang').val('');
+                    $('#them-diengiai').val('');
+                    $('#them-solo').val('');
+                    $('#them-dvt').val('');
+                    $('#them-hsd').val('');
+                    $('#them-soluong').val('0');
+                    $('#them-dongia').val('');
+                    $('#them-vat').val('0');
+                    $('#them-ck').val('0');
+                    $('#them-tenmathang').val('');
+                    $('#slcon').text('0');
+                  }
+                  $('#them-mathang').removeClass('ui-autocomplete-loading');  
+                  response( $.map( data, function(item) {
+                    return {
+                        label: item.IDMH + ' - ' + item.TENMH,
+                        value: item.IDMH
+                    }
+                  }));
+              },
+              error: function(data) {
+                  $('#them-mathang').removeClass('ui-autocomplete-loading');  
+              }
+          });
+      },
+      minLength: 1,
+      select: function (event, ui) {
+          $('#idmathang').val(ui.item.value);
+          $('#them-mathang').val(ui.item.label);
+            $.ajax({
+                url: 'ajax/ajLaythongtinhang.php',
+                type: 'POST',
+                data: {
+                  idmh:$(this).val().trim()
+                },
+                success: function (data) {
+                  var kq = $.parseJSON(data);
+                  $('#them-diengiai').val(kq.DIENGIAI);
+                  $('#them-solo').val(kq.SOLO);
+                  $('#them-dvt').val(kq.TENDVT);
+                  $('#them-hsd').val(kq.HSD);
+                  $('#them-dongia').val(kq.GIABAN);
+                  $('#them-tenmathang').val(kq.TENMH);
+                  $('#slcon').text(kq.SOLUONG);
+                }
+            });
+          return false;
+      },
+  });
+});
     $('#bangxuathang').DataTable({
       'paging'      : true,
       'ordering'    : true,
@@ -269,10 +325,6 @@ body {
     $('#bang-nhaphang').on('click','.xoahang',function(){
       $(this).parents('tr').remove();
     });
-    $('#them-mathang').select2({
-      placeholder: '--- Chọn mặt hàng ---',
-      width: '100%'
-    });
 
     webshims.setOptions('forms-ext', {
         replaceUI: 'auto',
@@ -280,38 +332,6 @@ body {
     });
     webshims.polyfill('forms forms-ext');
 
-    $(document).on('change','#them-mathang',function(){
-      if($(this).val()=='chuachon'){
-        $('#them-diengiai').val('');
-        $('#them-solo').val('');
-        $('#them-dvt').val('');
-        $('#them-hsd').val('');
-        $('#them-soluong').val('0');
-        $('#them-dongia').val('');
-        $('#them-vat').val('0');
-        $('#them-ck').val('0');
-        $('#them-tenmathang').val('');
-        $('#slcon').text('0');
-      }else{
-        $.ajax({
-            url: 'ajax/ajLaythongtinhang.php',
-            type: 'POST',
-            data: {
-              idmh:$(this).val().trim()
-            },
-            success: function (data) {
-              var kq = $.parseJSON(data);
-              $('#them-diengiai').val(kq.DIENGIAI);
-              $('#them-solo').val(kq.SOLO);
-              $('#them-dvt').val(kq.TENDVT);
-              $('#them-hsd').val(kq.HSD);
-              $('#them-dongia').val(kq.GIABAN);
-              $('#them-tenmathang').val(kq.TENMH);
-              $('#slcon').text(kq.SOLUONG);
-            }
-        });
-      }
-    });
     $(document).on('click','#themmoi',function(){
       var lston = $('#slcon').text();
       slton = parseInt(lston);
@@ -322,7 +342,7 @@ body {
         return;
       }
       var tr = "                <tr>\n" +
-          "                  <td hidden='hidden'>"+$('#them-mathang').val()+"</td>\n" +
+          "                  <td hidden='hidden'>"+$('#idmathang').val()+"</td>\n" +
           "                  <td>"+$('#them-tenmathang').val()+"</td>\n" +
           "                  <td>"+$('#them-diengiai').val()+"</td>\n" +
           "                  <td>"+$('#them-dvt').val()+"</td>\n" +
@@ -344,7 +364,7 @@ body {
     });
     $(document).on('click','#xuathang',function(){
       var tenkh = $('#them-tenkh').val().trim();
-      var idkh = $('#them-idkh').val().trim();
+      var idkh = $('#idkh').val().trim();
       var bidanh = $('#them-bidanh').val().trim();
       var diachi = $('#them-diachi').val().trim();
       var mst = $('#them-masothue').val().trim();
@@ -402,141 +422,7 @@ body {
 
     }
     thoigian();
-function autocomplete(inp, arr) {
-  if (jQuery.isEmptyObject(arr)) {
-    return;
-  }
-  /*the autocomplete function takes two arguments,
-  the text field element and an array of possible autocompleted values:*/
-  var currentFocus;
-  /*execute a function when someone writes in the text field:*/
-  inp.addEventListener("input", function(e) {
-      var a, b, i, val = this.value;
-      /*close any already open lists of autocompleted values*/
-      closeAllLists();
-      if (!val) { return false;}
-      currentFocus = -1;
-      /*create a DIV element that will contain the items (values):*/
-      a = document.createElement("DIV");
-      a.setAttribute("id", this.id + "autocomplete-list");
-      a.setAttribute("class", "autocomplete-items");
-      /*append the DIV element as a child of the autocomplete container:*/
-      this.parentNode.appendChild(a);
-      /*for each item in the array...*/
-      for (i = 0; i < arr.length; i++) {
-        /*check if the item starts with the same letters as the text field value:*/
-        if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
-          /*create a DIV element for each matching element:*/
-          b = document.createElement("DIV");
-          /*make the matching letters bold:*/
-          b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
-          b.innerHTML += arr[i].substr(val.length);
-          /*insert a input field that will hold the current array item's value:*/
-          b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
-          /*execute a function when someone clicks on the item value (DIV element):*/
-          b.addEventListener("click", function(e) {
-              /*insert the value for the autocomplete text field:*/
-              inp.value = this.getElementsByTagName("input")[0].value;
-              /*close the list of autocompleted values,
-              (or any other open lists of autocompleted values:*/
-              closeAllLists();
-          });
-          a.appendChild(b);
-        }
-      }
-  });
-  /*execute a function presses a key on the keyboard:*/
-  inp.addEventListener("keydown", function(e) {
-      var x = document.getElementById(this.id + "autocomplete-list");
-      if (x) x = x.getElementsByTagName("div");
-      if (e.keyCode == 40) {
-        /*If the arrow DOWN key is pressed,
-        increase the currentFocus variable:*/
-        currentFocus++;
-        /*and and make the current item more visible:*/
-        addActive(x);
-      } else if (e.keyCode == 38) { //up
-        /*If the arrow UP key is pressed,
-        decrease the currentFocus variable:*/
-        currentFocus--;
-        /*and and make the current item more visible:*/
-        addActive(x);
-      } else if (e.keyCode == 13) {
-        /*If the ENTER key is pressed, prevent the form from being submitted,*/
-        e.preventDefault();
-        if (currentFocus > -1) {
-          /*and simulate a click on the "active" item:*/
-          if (x) x[currentFocus].click();
-        }
-      }
-  });
-  function addActive(x) {
-    /*a function to classify an item as "active":*/
-    if (!x) return false;
-    /*start by removing the "active" class on all items:*/
-    removeActive(x);
-    if (currentFocus >= x.length) currentFocus = 0;
-    if (currentFocus < 0) currentFocus = (x.length - 1);
-    /*add class "autocomplete-active":*/
-    x[currentFocus].classList.add("autocomplete-active");
-  }
-  function removeActive(x) {
-    /*a function to remove the "active" class from all autocomplete items:*/
-    for (var i = 0; i < x.length; i++) {
-      x[i].classList.remove("autocomplete-active");
-    }
-  }
 
-  function closeAllLists(elmnt) {
-    /*close all autocomplete lists in the document,
-    except the one passed as an argument:*/
-    var x = document.getElementsByClassName("autocomplete-items");
-    for (var i = 0; i < x.length; i++) {
-      if (elmnt != x[i] && elmnt != inp) {
-        x[i].parentNode.removeChild(x[i]);
-      }
-    }
-  }
-  /*execute a function when someone clicks in the document:*/
-  document.addEventListener("click", function (e) {
-      closeAllLists(e.target);
-  });
-}
-$(document).on('keydown','#them-tenkh', function(){
-  var ten = $(this).val();
-  var mathangajax;
-        $.ajax({
-            url: 'ajax/ajMathang.php',
-            type: 'POST',
-            data: {
-              ten:ten
-            },
-            success: function (data) {
-              $('body').append(data);
-            }
-        });
-});
-$(document).on('click','#them-tenkhautocomplete-list div', function(){
-  var ten = $('#them-tenkh').val();
-  var idkh = (ten.substr(ten.lastIndexOf(': ')+2,ten.length-(ten.lastIndexOf(': '))));
-  if (idkh=='') {return;}
-  $('#them-idkh').val('0');
-  $.ajax({
-      url: 'ajax/ajLaythongtinkhachhang.php',
-      type: 'POST',
-      data: {
-        idkh:idkh.trim()
-      },
-      success: function (data) {
-        var kq = $.parseJSON(data);
-        $('#them-masothue').val(kq.MST);
-        $('#them-sdt').val(kq.SDT);
-        $('#them-bidanh').val(kq.BIETHIEU);
-        $('#them-diachi').val(kq.DIACHI);
-        $('#them-idkh').val(kq.IDKH);
-      }
-  });
-});
   function printData()
   {
      var divToPrint=document.getElementById("noidungin");

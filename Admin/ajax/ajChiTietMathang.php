@@ -5,7 +5,7 @@
 		if (isset($_POST['ten']) && !empty($_POST['ten'])) {
 			$kn = new clsKetnoi();
 			$ten = mysqli_real_escape_string($kn->conn,$_POST['ten']);
-			$kiemtra = $kn->query("SELECT TENKH,IDKH  FROM khachhang WHERE TENKH like '%$ten%'");
+			$kiemtra = $kn->query("SELECT TENMH,IDMH  FROM mathang WHERE TENMH like '%$ten%' AND SOLUONG > 0");
 		    $rlh = null;
 		    while($row = mysqli_fetch_assoc($kiemtra)) {
 		        $rlh[] = $row;

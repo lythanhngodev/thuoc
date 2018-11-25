@@ -36,6 +36,10 @@
 							INSERT INTO cthoadon(IDHD,IDMH,SOLUONG,VAT,CK,DONGIA) VALUES ('$idhd','$idmh','$soluong','$vat','$ck','$dongia');
 						";
 						if (mysqli_query($kn->conn,$str)) {
+							$str = "
+							UPDATE mathang SET SOLUONG=SOLUONG-'$soluong' WHERE IDMH='$idmh';
+						";
+							mysqli_query($kn->conn,$str);
 							$dem++;
 						}
 				}

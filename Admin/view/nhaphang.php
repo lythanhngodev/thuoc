@@ -107,7 +107,7 @@
 </div>
 <!-- /.modal -->
 <script type="text/javascript">
-	document.getElementById('donvitinh').classList.add("active");
+	document.getElementById('nhaphang').classList.add("active");
 	document.getElementById('tieudetrang').innerHTML = "Nhập hàng";
     $('#example1').DataTable({
       'paging'      : true,
