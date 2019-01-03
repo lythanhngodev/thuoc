@@ -37,26 +37,15 @@
                 <th style="text-align: center;">Tên hàng</th>
                 <th style="text-align: center;">ĐVT</th>
                 <th style="text-align: center;">Số lô</th>
-                <th style="text-align: center;">HSD</th>
                 <th style="text-align: center;">SL</th>
                 <th style="text-align: center;">Đơn giá (Nhập)</th>
                 <th style="text-align: center;">Đơn giá (Bán)</th>
                 <th></th>
               </tr>
-              <tr>
-                <td><input type="text" class="form-control"></td>
-                <td><input type="text" class="form-control"></td>
-                <td><input type="text" class="form-control"></td>
-                <td><input type="date" class="form-control"></td>
-                <td><input type="number" class="form-control"></td>
-                <td><input type="number" class="form-control"></td>
-                <td><input type="number" class="form-control"></td>
-                <td><button class="btn btn-sm btn-danger xoahang"><i class="fa fa-close"></i></button></td>
-              </tr>
             </table>
             <center><button class="btn btn-sm btn-success" id="themmoi"><i class="fa fa-plus"></i></button></center>
             <hr>
-            <button class="btn btn-primary" id="nhaphang">Hoàn tất</button>
+            <button class="btn btn-primary" id="nhaphang">Lưu nhập hàng</button>
           </div>
         </div>
       </div>
@@ -71,7 +60,6 @@
                   <th>TT</th>
                   <th>Tên mặt hàng</th>
                   <th>Số lô</th>
-                  <th>HSD</th>
                   <th>ĐVT</th>
                   <th>Số lượng</th>
                 </tr>
@@ -83,7 +71,6 @@
                     <th><?php echo $stt; ?></th>
 	                  <td><?php echo $row['TENMH']; ?></td>
                     <td><?php echo $row['SOLO']; ?></td>
-                    <td><?php echo $row['HSD']; ?></td>
                     <td><?php echo $row['TENDVT']; ?></td>
                     <td><?php echo $row['SOLUONG']; ?></td>
 	                </tr>
@@ -94,7 +81,6 @@
                   <th>TT</th>
                   <th>Tên mặt hàng</th>
                   <th>Số lô</th>
-                  <th>HSD</th>
                   <th>ĐVT</th>
                   <th>Số lượng</th>
                 </tr>
@@ -107,6 +93,15 @@
 </div>
 <!-- /.modal -->
 <script type="text/javascript">
+  <?php 
+  $dvt = laydonvitinh();
+  $row = null;
+  while ($r=mysqli_fetch_row($dvt)) {
+    $row[] = $r;
+  }
+  ?>
+  var donvitinh = <?php echo json_encode($row); ?>;
+  var optiondvt = "";
 	document.getElementById('nhaphang').classList.add("active");
 	document.getElementById('tieudetrang').innerHTML = "Nhập hàng";
     $('#example1').DataTable({
@@ -132,12 +127,16 @@
 		}
 	}
     });
+    $(document).ready(function(){
+      donvitinh.map(function(da){
+        optiondvt+="<option value='"+da[0]+"'>"+da[1]+"</option>";
+      });
+    });
     $(document).on('click','#themmoi',function(){
       var tr = "<tr>\n" +
           "<td><input type=\"text\" class=\"form-control\"></td>\n" +
+          "<td><select class=\"form-control\">"+optiondvt+"</select></td>\n" +
           "<td><input type=\"text\" class=\"form-control\"></td>\n" +
-          "<td><input type=\"text\" class=\"form-control\"></td>\n" +
-          "<td><input type=\"date\" class=\"form-control\"></td>\n" +
           "<td><input type=\"number\" class=\"form-control\"></td>\n" +
           "<td><input type=\"number\" class=\"form-control\"></td>\n" +
           "<td><input type=\"number\" class=\"form-control\"></td>\n" +

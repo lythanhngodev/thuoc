@@ -45,7 +45,7 @@
             </div>
             <div class="form-group col-md-6">
               <label for="exampleInputEmail1">Hạn sử dụng</label>
-              <input type="text" class="form-control" id="them-hsd" readonly="readonly">
+              <input type="text" class="form-control datepicker" id="them-hsd">
             </div>
             <div class="form-group col-md-6">
               <label for="exampleInputEmail1">Số lượng (<span id="slcon">0</span>)</label>
@@ -196,6 +196,22 @@
 	document.getElementById('xuathang').classList.add("active");
 	document.getElementById('tieudetrang').innerHTML = "Xuất hàng - Bán hàng";
 $(document).ready(function(){
+ $( function() {
+    $( ".datepicker" ).datepicker({ dateFormat: 'dd-mm-yy' });
+  } );
+  function lammoi(){
+      $('#idmathang').val('');
+      $('#them-diengiai').val('');
+      $('#them-solo').val('');
+      $('#them-dvt').val('');
+      $('#them-hsd').val('');
+      $('#them-soluong').val('0');
+      $('#them-dongia').val('');
+      $('#them-vat').val('0');
+      $('#them-ck').val('0');
+      $('#them-tenmathang').val('');
+      $('#slcon').text('0');
+  }
   $( "#them-tenkh" ).autocomplete({
       source: function( request, response ) {
           $.ajax({
@@ -240,6 +256,9 @@ $(document).ready(function(){
           return false;
       },
   });
+  $(document).on('keyup','#them-mathang',function(){
+    lammoi();
+  });
   $( "#them-mathang" ).autocomplete({
       source: function( request, response ) {
           $.ajax({
@@ -249,17 +268,7 @@ $(document).ready(function(){
               data: {ten:$('#them-mathang').val()},
               success: function(data) {
                   if(jQuery.isEmptyObject(data)){
-                    $('#idmathang').val('');
-                    $('#them-diengiai').val('');
-                    $('#them-solo').val('');
-                    $('#them-dvt').val('');
-                    $('#them-hsd').val('');
-                    $('#them-soluong').val('0');
-                    $('#them-dongia').val('');
-                    $('#them-vat').val('0');
-                    $('#them-ck').val('0');
-                    $('#them-tenmathang').val('');
-                    $('#slcon').text('0');
+                    lammoi();
                   }
                   $('#them-mathang').removeClass('ui-autocomplete-loading');  
                   response( $.map( data, function(item) {
@@ -289,7 +298,7 @@ $(document).ready(function(){
                   $('#them-diengiai').val(kq.DIENGIAI);
                   $('#them-solo').val(kq.SOLO);
                   $('#them-dvt').val(kq.TENDVT);
-                  $('#them-hsd').val(kq.HSD);
+                  //$('#them-hsd').val(kq.HSD);
                   $('#them-dongia').val(kq.GIABAN);
                   $('#them-tenmathang').val(kq.TENMH);
                   $('#slcon').text(kq.SOLUONG);
@@ -403,7 +412,7 @@ $(document).ready(function(){
               tbsuccess('Đã xuất hàng thành công');
               setTimeout(function(){
               location.reload();
-          }, 2000);
+          }, 0);
             }
             else{
               tbdanger(kq.thongbao);

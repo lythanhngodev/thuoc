@@ -25,7 +25,7 @@
                     <th>Giá nhập</th>
                     <th>Giá bán</th>
                     <th>Số lượng</th>
-                    <th>HSD</th>
+                    <th hidden="hidden">HSD</th>
                     <th>Ghi chú</th>
                     <th>Thao tác</th>
                   </tr>
@@ -43,7 +43,7 @@
                       <td class="text-right"><?php echo $row['GIANHAP']; ?></td>
                       <td class="text-right"><?php echo $row['GIABAN']; ?></td>
                       <td class="text-right"><?php echo $row['SOLUONG']; ?></td>
-                      <td><?php echo $row['HSD']; ?></td>
+                      <td hidden="hidden"><?php echo $row['HSD']; ?></td>
                       <td><?php echo $row['GHICHU']; ?></td>
                       <td ltn="<?php echo $row['IDMH'] ?>"><button class="btn btn-primary btn-sm sua">Sửa</button>&ensp;<button class="btn btn-danger btn-sm xoa">Xoá</button></td>
                     </tr>
@@ -117,10 +117,6 @@
           <input type="text" class="form-control" id="them-giaban" placeholder="Giá bán">
         </div>
         <div class="form-group">
-          <label for="exampleInputEmail1">Hạn sử dụng</label>
-          <input type="date" class="form-control" id="them-hansudung">
-        </div>
-        <div class="form-group">
           <label for="exampleInputEmail1">Ghi chú</label>
           <input type="text" class="form-control" id="them-ghichu" placeholder="Ghi chú">
         </div>
@@ -178,10 +174,6 @@
         <div class="form-group">
           <label for="exampleInputEmail1">Giá bán</label>
           <input type="text" class="form-control" id="sua-giaban" placeholder="Giá bán">
-        </div>
-        <div class="form-group">
-          <label for="exampleInputEmail1">Hạn sử dụng</label>
-          <input type="date" class="form-control" id="sua-hansudung">
         </div>
         <div class="form-group">
           <label for="exampleInputEmail1">Ghi chú</label>
@@ -274,7 +266,7 @@
       $('#sua-solo').val($(this).parent('td').parent('tr').find('td:nth-child(4)').text().trim());
       $('#sua-gianhap').val($(this).parent('td').parent('tr').find('td:nth-child(7)').text().trim());
       $('#sua-giaban').val($(this).parent('td').parent('tr').find('td:nth-child(8)').text().trim());
-      $('#sua-hansudung').val($(this).parent('td').parent('tr').find('td:nth-child(10)').text().trim());
+      //$('#sua-hansudung').val($(this).parent('td').parent('tr').find('td:nth-child(10)').text().trim());
       $('#sua-ghichu').val($(this).parent('td').parent('tr').find('td:nth-child(11)').text().trim());
     	$('#sua-nhommathang').val($(this).parent('td').parent('tr').find('td:nth-child(5)').attr('ltn')).change();
       $('#sua-donvitinh').val($(this).parent('td').parent('tr').find('td:nth-child(6)').attr('ltn')).change();
@@ -313,7 +305,6 @@
               solo: $('#them-solo').val().trim(),
               gianhap: $('#them-gianhap').val(),
               giaban: $('#them-giaban').val(),
-              hsd: $('#them-hansudung').val(),
               ghichu: $('#them-ghichu').val().trim()
             },
             success: function (data) {
@@ -342,11 +333,6 @@
         tbdanger('Vui lòng chọn đơn vị tính');
         return false;
       }
-      var hsd = $('#sua-hansudung').val();
-      if (!hsd) {
-        tbdanger('Vui lòng nhập hạn sử dụng');
-        return false;
-      }
       var nmh = $('#sua-nhommathang').val();
       if (!nmh) {
         tbdanger('Vui lòng nhập nhóm mặt hàng');
@@ -364,7 +350,6 @@
               solo: $('#sua-solo').val().trim(),
               gianhap: $('#sua-gianhap').val(),
               giaban: $('#sua-giaban').val(),
-              hsd: $('#sua-hansudung').val(),
               ghichu: $('#sua-ghichu').val().trim()
             },
             success: function (data) {
@@ -384,7 +369,7 @@
     });
     $(document).on('click','#btn-xoa',function(){
         $.ajax({
-            url: 'ajax/ajXoaban.php',
+            url: 'ajax/ajXoamathang.php',
             type: 'POST',
             data: {
             	id:$('#xoa-id').val()
@@ -393,13 +378,13 @@
             	var kq = $.parseJSON(data);
             	if (kq.trangthai) {
             		$('#modal-xoa').modal('hide');
-            		tbsuccess('Đã xoá khu vực / tầng / lầu');
+            		tbsuccess('Đã xoá mặt hàng');
             		setTimeout(function(){
 				        location.reload();
 				    }, 2000);
             	}
             	else{
-            		tbdanger('Lỗi!, Vui lòng thử lại');
+            		tbdanger(kq.thongbao);
             	}
             }
         });

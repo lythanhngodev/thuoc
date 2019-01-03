@@ -15,8 +15,7 @@
 			$gianhap = floatval($_POST['gianhap']);
 			$giaban = floatval($_POST['giaban']);
 			$ghichu = mysqli_real_escape_string($kn->conn,$_POST['ghichu']);
-			$hsd = mysqli_real_escape_string($kn->conn,$_POST['hsd']);
-			$kiemtra = $kn->adddata("INSERT INTO mathang (IDNH,TENMH, IDDVT, GIANHAP, GIABAN, GHICHU, DIENGIAI,HSD,SOLO) VALUES ('$idnh','$tenmathang','$dvt','$gianhap','$giaban', '$ghichu', '$diengiai','$hsd','$solo');");
+			$kiemtra = $kn->adddata("INSERT INTO mathang (IDNH,TENMH, IDDVT, GIANHAP, GIABAN, GHICHU, DIENGIAI,SOLO) VALUES ('$idnh','$tenmathang','$dvt','$gianhap','$giaban', '$ghichu', '$diengiai','$solo');");
 			if ($kiemtra>0) {
 				$kq['trangthai']=1;
 				echo json_encode($kq);

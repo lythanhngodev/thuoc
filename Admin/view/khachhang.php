@@ -117,6 +117,7 @@
           <input type="text" class="form-control" id="sua-diachi" placeholder="Địa chỉ">
         </div>
       </div>
+      <input type="text" hidden="hidden" id="sua-id" name="">
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
         <button type="button" class="btn btn-primary" id="btn-sua">Hoàn tất</button>
@@ -195,25 +196,45 @@
     	$('#modal-xoa').modal('show');
     });
     $(document).on('click','#btn-them',function(){
-    	var ten = $('#them-tendonvitinh').val();
+    	var ten = $('#them-tenkhachhang').val();
     	if (!ten) {
-    		tbdanger('Vui lòng điền tên nhóm');
+    		tbdanger('Vui lòng điền tên khách hàng');
     		return false;
     	}
+      var bidanh = $('#them-bidanh').val();
+      if (!bidanh) {
+        tbdanger('Vui lòng điền bí danh khách hàng');
+        return false;
+      }
+      var dienthoai = $('#them-dienthoai').val();
+      if (!dienthoai) {
+        tbdanger('Vui lòng điền điện thoại khách hàng');
+        return false;
+      }
+      var diachi = $('#them-diachi').val();
+      if (!diachi) {
+        tbdanger('Vui lòng điền địa chỉ khách hàng');
+        return false;
+      }
+      var masothue = $('#them-masothue').val();
         $.ajax({
-            url: 'ajax/ajThemdonvitinh.php',
+            url: 'ajax/ajThemkhachhang.php',
             type: 'POST',
             data: {
-            	ten:ten
+            	ten:ten,
+              bidanh:bidanh,
+              dienthoai:dienthoai,
+              diachi:diachi,
+              masothue:masothue
             },
             success: function (data) {
             	var kq = $.parseJSON(data);
             	if (kq.trangthai) {
             		$('#modal-them').modal('hide');
-            		tbsuccess('Đã thêm đơn vị tính');
+            		tbsuccess('Đã thêm khách hàng');
             		setTimeout(function(){
 				        location.reload();
-				    }, 2000);
+				    }, 0);
             	}
             	else{
             		tbdanger('Lỗi!, Vui lòng thử lại');
@@ -222,26 +243,46 @@
         });
     });
     $(document).on('click','#btn-sua',function(){
-    	var ten = $('#sua-tendonvitinh').val();
-    	if (!ten) {
-    		tbdanger('Vui lòng điền tên đơn vị tính');
-    		return false;
-    	}
+      var ten = $('#sua-tenkhachhang').val();
+      if (!ten) {
+        tbdanger('Vui lòng điền tên khách hàng');
+        return false;
+      }
+      var bidanh = $('#sua-bidanh').val();
+      if (!bidanh) {
+        tbdanger('Vui lòng điền bí danh khách hàng');
+        return false;
+      }
+      var dienthoai = $('#sua-dienthoai').val();
+      if (!dienthoai) {
+        tbdanger('Vui lòng điền điện thoại khách hàng');
+        return false;
+      }
+      var diachi = $('#sua-diachi').val();
+      if (!diachi) {
+        tbdanger('Vui lòng điền địa chỉ khách hàng');
+        return false;
+      }
+      var masothue = $('#sua-masothue').val();
         $.ajax({
-            url: 'ajax/ajSuadonvitinh.php',
+            url: 'ajax/ajSuakhachhang.php',
             type: 'POST',
             data: {
-            	ten:ten,
-            	iddvt:$('#sua-id').val()
+              ten:ten,
+              bidanh:bidanh,
+              dienthoai:dienthoai,
+              diachi:diachi,
+              masothue:masothue,
+            	idkh:$('#sua-id').val()
             },
             success: function (data) {
             	var kq = $.parseJSON(data);
             	if (kq.trangthai) {
             		$('#modal-sua').modal('hide');
-            		tbsuccess('Đã sửa đơn vị tính');
+            		tbsuccess('Đã sửa khách hàng');
             		setTimeout(function(){
 				        location.reload();
-				    }, 2000);
+				    }, 0);
             	}
             	else{
             		tbdanger('Lỗi!, Vui lòng thử lại');
@@ -251,7 +292,7 @@
     });
     $(document).on('click','#btn-xoa',function(){
         $.ajax({
-            url: 'ajax/ajXoanhommathang.php',
+            url: 'ajax/ajXoakhachhang.php',
             type: 'POST',
             data: {
             	id:$('#xoa-id').val()
@@ -260,13 +301,13 @@
             	var kq = $.parseJSON(data);
             	if (kq.trangthai) {
             		$('#modal-xoa').modal('hide');
-            		tbsuccess('Đã xoá nhóm mặt hàng');
+            		tbsuccess('Đã xoá khách hàng');
             		setTimeout(function(){
 				        location.reload();
 				    }, 2000);
             	}
             	else{
-            		tbdanger('Lỗi!, Vui lòng thử lại');
+            		tbdanger(kq.thongbao);
             	}
             }
         });

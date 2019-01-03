@@ -16,7 +16,6 @@
 			$ghichu = mysqli_real_escape_string($kn->conn,$_POST['ghichu']);
 			$diengiai = mysqli_real_escape_string($kn->conn,$_POST['diengiai']);
 			$solo = mysqli_real_escape_string($kn->conn,$_POST['solo']);
-			$hsd = mysqli_real_escape_string($kn->conn,$_POST['hsd']);
 			$kiemtra = $kn->editdata("
 				UPDATE mathang 
 				SET
@@ -27,7 +26,6 @@
 					GIABAN = '$giaban',
 					GHICHU = '$ghichu',
 					DIENGIAI = '$diengiai',
-					HSD = '$hsd',
 					SOLO = '$solo'
 				WHERE
 					IDMH = '$idmh'

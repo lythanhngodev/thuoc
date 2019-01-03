@@ -126,14 +126,14 @@ function doctien( $number )
 	$q_tt = mysqli_query($ketnoi->conn, $hoi);
 	function thongtinhoadon($id){
 	    $ketnoi = new clsKetnoi();
-	    $query = "SELECT kh.TENKH, kh.BIETHIEU, kh.DIACHI, hd.SOHOADON, kh.MST, hd.NGAY, tk.HT FROM hoadon hd LEFT JOIN khachhang kh ON hd.IDKH=kh.IDKH LEFT JOIN taikhoan tk ON hd.IDTK=tk.IDTK WHERE hd.IDHD = '$id';";
+	    $query = "SELECT kh.TENKH, kh.BIETHIEU, kh.DIACHI, hd.SOHOADON, kh.MST, hd.NGAY, tk.HT,hd.TGBAN FROM hoadon hd LEFT JOIN khachhang kh ON hd.IDKH=kh.IDKH LEFT JOIN taikhoan tk ON hd.IDTK=tk.IDTK WHERE hd.IDHD = '$id';";
 	    $result = $ketnoi->query($query);
 	    $r = mysqli_fetch_assoc($result);
 	    return $r;
 	}
 	function chitiethoadon($id){
 	    $ketnoi = new clsKetnoi();
-	    $query = "SELECT mh.TENMH,mh.DIENGIAI, dvt.TENDVT, mh.SOLO, mh.HSD,ct.SOLUONG, ct.DONGIA, ct.SOLUONG*ct.DONGIA as THANHTIEN, ct.VAT, (ct.SOLUONG*ct.DONGIA)*ct.VAT/100 as THUEVAT,ct.CK, (ct.SOLUONG*ct.DONGIA)*ct.CK/100 as CHIECKHAU FROM cthoadon ct LEFT JOIN mathang mh ON ct.IDMH=mh.IDMH LEFT JOIN donvitinh dvt ON mh.IDDVT=dvt.IDDVT WHERE ct.IDHD = '$id';
+	    $query = "SELECT mh.TENMH,mh.DIENGIAI, dvt.TENDVT, mh.SOLO, ct.HSD,ct.SOLUONG, ct.DONGIA, ct.SOLUONG*ct.DONGIA as THANHTIEN, ct.VAT, (ct.SOLUONG*ct.DONGIA)*ct.VAT/100 as THUEVAT,ct.CK, (ct.SOLUONG*ct.DONGIA)*ct.CK/100 as CHIECKHAU FROM cthoadon ct LEFT JOIN mathang mh ON ct.IDMH=mh.IDMH LEFT JOIN donvitinh dvt ON mh.IDDVT=dvt.IDDVT WHERE ct.IDHD = '$id';
 ";
 	    $result = mysqli_query($ketnoi->conn, $query);
 	    return $result;
@@ -189,10 +189,11 @@ function doctien( $number )
 				<table style="width: 100%;" class="font13">
 					<tr>
 						<td>Khách hàng: <b><?php echo $hoadon['TENKH'] ?></b></td>
-						<td style="width: 48mm;">Ngày: <b><?php echo date_format(date_create_from_format('Y-m-d', $hoadon['NGAY']), 'd/m/Y') ?></b></td>
+						<td style="width: 50mm;">Ngày: <b><?php echo date_format(date_create_from_format('Y-m-d', $hoadon['NGAY']), 'd/m/Y') ?></b></td>
 					</tr>
 					<tr>
-						<td colspan="2">Bí danh: <b><?php echo $hoadon['BIETHIEU'] ?></b></td>
+						<td>Bí danh: <b><?php echo $hoadon['BIETHIEU'] ?></b></td>
+						<td style="width: 50mm;">Thời gian: <b><?php echo $hoadon['TGBAN'] ?></b></td>
 					</tr>
 					<tr>
 						<td>Địa chỉ: <b><?php echo $hoadon['DIACHI'] ?></b></td>
@@ -231,7 +232,14 @@ function doctien( $number )
 							<td><?php echo $row['DIENGIAI'] ?></td>
 							<td><?php echo $row['TENDVT'] ?></td>
 							<td><?php echo $row['SOLO'] ?></td>
-							<td style="text-align: center;"><?php echo date_format(date_create_from_format('Y-m-d', $row['HSD']), 'd/m/Y') ?></td>
+							<td style="text-align: center;">
+								<?php 
+								if (is_null($row['HSD'])||empty($row['HSD'])) {
+									echo "";
+								}
+								else
+									echo date_format(date_create_from_format('d-m-Y', $row['HSD']), 'd/m/Y') ?>
+							</td>
 							<td style="text-align: center;"><?php echo $row['SOLUONG'] ?></td>
 							<td style="text-align: right;"><?php echo dauphay($row['DONGIA']); ?></td>
 							<td style="text-align: right;"><?php echo  dauphay($row['THANHTIEN']); ?></td>

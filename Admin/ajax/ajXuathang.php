@@ -32,8 +32,9 @@
 						$vat = $data[$i][9];
 						$ck = $data[$i][10];
 						$dongia = $data[$i][7];
+						$hsd = $data[$i][5];
 						$str = "
-							INSERT INTO cthoadon(IDHD,IDMH,SOLUONG,VAT,CK,DONGIA) VALUES ('$idhd','$idmh','$soluong','$vat','$ck','$dongia');
+							INSERT INTO cthoadon(IDHD,IDMH,SOLUONG,VAT,CK,DONGIA,HSD) VALUES ('$idhd','$idmh','$soluong','$vat','$ck','$dongia','$hsd');
 						";
 						if (mysqli_query($kn->conn,$str)) {
 							$str = "
