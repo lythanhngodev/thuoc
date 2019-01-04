@@ -44,17 +44,22 @@
               <input type="text" class="form-control" id="them-dvt" readonly="readonly">
             </div>
             <div class="form-group col-md-6">
+              <label for="exampleInputEmail1">Ngày sản xuất</label>
+              <input type="text" class="form-control datepicker" id="them-nsx" readonly="readonly">
+            </div>
+            <div class="form-group col-md-6">
               <label for="exampleInputEmail1">Hạn sử dụng</label>
-              <input type="text" class="form-control datepicker" id="them-hsd">
+              <input type="text" class="form-control datepicker" id="them-hsd" readonly="readonly">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="exampleInputEmail1">Giá bán</label>
+              <input type="number" class="form-control" id="them-dongia" readonly="readonly">
             </div>
             <div class="form-group col-md-6">
               <label for="exampleInputEmail1">Số lượng (<span id="slcon">0</span>)</label>
               <input type="number" class="form-control" id="them-soluong" value="0">
             </div>
-            <div class="form-group col-md-12">
-              <label for="exampleInputEmail1">Giá bán</label>
-              <input type="number" class="form-control" id="them-dongia" readonly="readonly">
-            </div>
+            
             <div class="form-group col-md-6">
               <label for="exampleInputEmail1">%VAT</label>
               <input type="number" class="form-control" id="them-vat" value="0" min="1" >
@@ -125,6 +130,7 @@
                   <th>Diễn giải</th>
                   <th>ĐVT</th>
                   <th>Số Lô</th>
+                  <th>NSX</th>
                   <th>HSD</th>
                   <th>SL</th>
                   <th>ĐG</th>
@@ -194,7 +200,7 @@
 <!-- /.modal -->
 <script type="text/javascript">
 	document.getElementById('xuathang').classList.add("active");
-	document.getElementById('tieudetrang').innerHTML = "Xuất hàng - Bán hàng";
+	document.getElementById('tieudetrang').innerHTML = "Bán hàng";
 $(document).ready(function(){
  $( function() {
     $( ".datepicker" ).datepicker({ dateFormat: 'dd-mm-yy' });
@@ -205,6 +211,7 @@ $(document).ready(function(){
       $('#them-solo').val('');
       $('#them-dvt').val('');
       $('#them-hsd').val('');
+      $('#them-nsx').val('');
       $('#them-soluong').val('0');
       $('#them-dongia').val('');
       $('#them-vat').val('0');
@@ -273,8 +280,8 @@ $(document).ready(function(){
                   $('#them-mathang').removeClass('ui-autocomplete-loading');  
                   response( $.map( data, function(item) {
                     return {
-                        label: item.IDMH + ' - ' + item.TENMH,
-                        value: item.IDMH
+                        label: item.IDMH + ' - MH: ' + item.TENMH + ' - Lô: ' + item.SOLO + ', NSX: ' + item.NSX + ', HSD: ' + item.HSD,
+                        value: item.IDMH 
                     }
                   }));
               },
@@ -298,7 +305,8 @@ $(document).ready(function(){
                   $('#them-diengiai').val(kq.DIENGIAI);
                   $('#them-solo').val(kq.SOLO);
                   $('#them-dvt').val(kq.TENDVT);
-                  //$('#them-hsd').val(kq.HSD);
+                  $('#them-hsd').val(kq.HSD);
+                  $('#them-nsx').val(kq.NSX);
                   $('#them-dongia').val(kq.GIABAN);
                   $('#them-tenmathang').val(kq.TENMH);
                   $('#slcon').text(kq.SOLUONG);
@@ -356,6 +364,7 @@ $(document).ready(function(){
           "                  <td>"+$('#them-diengiai').val()+"</td>\n" +
           "                  <td>"+$('#them-dvt').val()+"</td>\n" +
           "                  <td>"+$('#them-solo').val()+"</td>\n" +
+          "                  <td>"+$('#them-nsx').val()+"</td>\n" +
           "                  <td>"+$('#them-hsd').val()+"</td>\n" +
           "                  <td>"+$('#them-soluong').val()+"</td>\n" +
           "                  <td>"+$('#them-dongia').val()+"</td>\n" +

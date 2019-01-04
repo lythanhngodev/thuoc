@@ -16,15 +16,24 @@
 			}
 			for ($i=0; $i < count($data); $i++) { 
 				// Kiểm tra mặt hàng
-				if ($kn->tontai("SELECT * FROM mathang WHERE TENMH = N'".$data[$i][0]."' AND SOLO = N'".$data[$i][2]."'")) {
+				if ($kn->tontai("SELECT * FROM mathang WHERE TENMH = N'".$data[$i][0]."' AND SOLO = N'".$data[$i][2]."' AND NSX = '".$data[$i][3]."'")) {
 					$str = "
 						UPDATE mathang
 						SET
-							SOLUONG = SOLUONG + ".floatval($data[$i][3]).",
-							GIANHAP = ".floatval($data[$i][4]).",
-							GIABAN = ".floatval($data[$i][5])."
+							SOLUONG = SOLUONG + ".floatval($data[$i][5]).",
+							GIANHAP = ".floatval($data[$i][6]).",
+							GIABAN = ".floatval($data[$i][7])."
 						WHERE
-							TENMH = N'".$data[$i][0]."' AND SOLO = N'".$data[$i][2]."';
+							TENMH = N'".$data[$i][0]."' AND SOLO = N'".$data[$i][2]."' AND NSX = '".$data[$i][3]."';
+					";
+					if (mysqli_query($kn->conn,$str)) {
+						$dem++;
+					}
+				}
+				else if ($kn->tontai("SELECT * FROM mathang WHERE TENMH = N'".$data[$i][0]."' AND SOLO = N'".$data[$i][2]."' AND NSX != '".$data[$i][3]."'")){
+					$iddvt = intval($data[$i][1]);
+					$str = "
+						INSERT INTO mathang (IDDVT,TENMH, GIANHAP, GIABAN, SOLO, SOLUONG, NSX, HSD) VALUES ($iddvt,'".$data[$i][0]."','".$data[$i][6]."','".$data[$i][7]."', '".$data[$i][2]."','".$data[$i][5]."','".$data[$i][3]."','".$data[$i][4]."');
 					";
 					if (mysqli_query($kn->conn,$str)) {
 						$dem++;
@@ -33,17 +42,16 @@
 				else if ($kn->tontai("SELECT * FROM mathang WHERE TENMH = N'".$data[$i][0]."' AND SOLO != N'".$data[$i][2]."'")){
 					$iddvt = intval($data[$i][1]);
 					$str = "
-						INSERT INTO mathang (IDDVT,TENMH, GIANHAP, GIABAN, SOLO) VALUES ($iddvt,'".$data[$i][0]."','".$data[$i][4]."','".$data[$i][5]."', '".$data[$i][2]."');
+						INSERT INTO mathang (IDDVT,TENMH, GIANHAP, GIABAN, SOLO, SOLUONG, NSX, HSD) VALUES ($iddvt,'".$data[$i][0]."','".$data[$i][6]."','".$data[$i][7]."', '".$data[$i][2]."','".$data[$i][5]."','".$data[$i][3]."','".$data[$i][4]."');
 					";
 					if (mysqli_query($kn->conn,$str)) {
 						$dem++;
-
 					}
 				}
 				else{
 					$iddvt = intval($data[$i][1]);
 					$str = "
-						INSERT INTO mathang (IDDVT,TENMH, GIANHAP, GIABAN, SOLO) VALUES ($iddvt,'".$data[$i][0]."','".$data[$i][4]."','".$data[$i][5]."','".$data[$i][2]."');
+						INSERT INTO mathang (IDDVT,TENMH, GIANHAP, GIABAN, SOLO, SOLUONG,NSX, HSD) VALUES ($iddvt,'".$data[$i][0]."','".$data[$i][6]."','".$data[$i][7]."','".$data[$i][2]."','".$data[$i][5]."','".$data[$i][3]."','".$data[$i][4]."');
 					";
 					if (mysqli_query($kn->conn,$str)) {
 						$dem++;

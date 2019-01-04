@@ -90,7 +90,7 @@ $_SESSION['_token'] = _token(256);
                 <li id="khachhang"><a href="?p=khachhang"><i class="fa fa-users"></i> <span>Khách hàng</span></a></li>
                 <hr style="border-top: 1px dotted #40494e;margin-top: 5px;margin-bottom: 5px;">
                 <li id="cauhinh"><a href="?p=cauhinh"><i class="fa fa-cog"></i> <span>Cấu hình</span></a></li>
-                <li id="thongke"><a href="#"><i class="fa fa-bar-chart"></i> <span>Thống kê</span></a></li>
+                <li id="thongke"><a href="?p=thongke"><i class="fa fa-bar-chart"></i> <span>Thống kê</span></a></li>
                 <li id="thongtincanhan"><a href="?p=thongtincanhan"><i class="fa fa-user"></i> <span>Thông tin cá nhân</span></a></li>
             </ul>
         </section>
@@ -134,6 +134,9 @@ $_SESSION['_token'] = _token(256);
                         break;
                     case 'thongtincanhan':
                         require_once "control/thongtincanhan.php";
+                        break;
+                    case 'thongke':
+                        require_once "control/thongke.php";
                         break;
         		}
         	}

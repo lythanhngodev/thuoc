@@ -37,6 +37,8 @@
                 <th style="text-align: center;">Tên hàng</th>
                 <th style="text-align: center;">ĐVT</th>
                 <th style="text-align: center;">Số lô</th>
+                <th style="text-align: center;">NSX</th>
+                <th style="text-align: center;">HSD</th>
                 <th style="text-align: center;">SL</th>
                 <th style="text-align: center;">Đơn giá (Nhập)</th>
                 <th style="text-align: center;">Đơn giá (Bán)</th>
@@ -60,8 +62,12 @@
                   <th>TT</th>
                   <th>Tên mặt hàng</th>
                   <th>Số lô</th>
+                  <th>NSX</th>
+                  <th>HSD</th>
                   <th>ĐVT</th>
                   <th>Số lượng</th>
+                  <th>Giá nhập</th>
+                  <th>Giá bán</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -71,8 +77,12 @@
                     <th><?php echo $stt; ?></th>
 	                  <td><?php echo $row['TENMH']; ?></td>
                     <td><?php echo $row['SOLO']; ?></td>
+                    <td><?php echo $row['NSX']; ?></td>
+                    <td><?php echo $row['HSD']; ?></td>
                     <td><?php echo $row['TENDVT']; ?></td>
                     <td><?php echo $row['SOLUONG']; ?></td>
+                    <td><?php echo $row['GIANHAP']; ?></td>
+                    <td><?php echo $row['GIABAN']; ?></td>
 	                </tr>
                 <?php $stt++; } ?>
                 </tbody>
@@ -81,8 +91,12 @@
                   <th>TT</th>
                   <th>Tên mặt hàng</th>
                   <th>Số lô</th>
+                  <th>NSX</th>
+                  <th>HSD</th>
                   <th>ĐVT</th>
                   <th>Số lượng</th>
+                  <th>Giá nhập</th>
+                  <th>Giá bán</th>
                 </tr>
                 </tfoot>
               </table>
@@ -137,6 +151,8 @@
           "<td><input type=\"text\" class=\"form-control\"></td>\n" +
           "<td><select class=\"form-control\">"+optiondvt+"</select></td>\n" +
           "<td><input type=\"text\" class=\"form-control\"></td>\n" +
+          "<td><input type=\"date\" class=\"form-control\"></td>\n" +
+          "<td><input type=\"date\" class=\"form-control\"></td>\n" +
           "<td><input type=\"number\" class=\"form-control\"></td>\n" +
           "<td><input type=\"number\" class=\"form-control\"></td>\n" +
           "<td><input type=\"number\" class=\"form-control\"></td>\n" +
@@ -153,7 +169,7 @@
       var data = [];
       table.find('tr:not(:first)').each(function(i, row) {
         var cols = [];
-        $(this).find('td:not(:last) input').each(function(i, col) {
+        $(this).find('td:not(:last) input, select').each(function(i, col) {
           cols.push($(this).val());
         });
         data.push(cols);
