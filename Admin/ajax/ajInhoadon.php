@@ -1,4 +1,5 @@
 <?php include_once "../../_l_.php";
+error_reporting(0);
 function doctien( $number )
 {
 	$hyphen = ' ';
@@ -189,7 +190,8 @@ function doctien( $number )
 				<table style="width: 100%;" class="font13">
 					<tr>
 						<td>Khách hàng: <b><?php echo $hoadon['TENKH'] ?></b></td>
-						<td style="width: 50mm;">Ngày: <b><?php echo date_format(date_create_from_format('Y-m-d', $hoadon['NGAY']), 'd/m/Y') ?></b></td>
+						<td style="width: 50mm;">Ngày: <b><?php
+						 echo date_format(date_create_from_format('Y-m-d', $hoadon['NGAY']), 'd/m/Y') ?></b></td>
 					</tr>
 					<tr>
 						<td>Bí danh: <b><?php echo $hoadon['BIETHIEU'] ?></b></td>
@@ -227,7 +229,7 @@ function doctien( $number )
 					$thue=0;
 					while ($row = mysqli_fetch_assoc($cthoadon)) { ?>
 						<tr>
-							<td><?php echo $stt; ?></td>
+							<td style="text-align:center;"><?php echo $stt; ?></td>
 							<td><?php echo $row['TENMH']; ?></td>
 							<td><?php echo $row['DIENGIAI'] ?></td>
 							<td><?php echo $row['TENDVT'] ?></td>
@@ -238,13 +240,13 @@ function doctien( $number )
 									echo "";
 								}
 								else
-									echo date_format(date_create_from_format('d-m-Y', $row['HSD']), 'd/m/Y') ?>
+									echo date_format(date_create_from_format('Y-m-d', $row['HSD']), 'd/m/Y') ?>
 							</td>
-							<td style="text-align: center;"><?php echo $row['SOLUONG'] ?></td>
+							<td style="text-align: center;"><?php echo dauphay($row['SOLUONG']); ?></td>
 							<td style="text-align: right;"><?php echo dauphay($row['DONGIA']); ?></td>
 							<td style="text-align: right;"><?php echo  dauphay($row['THANHTIEN']); ?></td>
-							<td style="text-align: center;"><?php echo $row['VAT']; ?></td>
-							<td style="text-align: center;"><?php echo $row['CK']; ?></td>
+							<td style="text-align: center;"><?php echo dauphay($row['VAT']); ?></td>
+							<td style="text-align: center;"><?php echo dauphay($row['CK']); ?></td>
 						</tr>
 					 <?php $stt++;$tongtien+=$row['THANHTIEN'];$chieckhau+=$row['CHIECKHAU'];$thue+=$row['THUEVAT'];} ?>
 				</table>
@@ -264,7 +266,7 @@ function doctien( $number )
 					</tr>
 					<tr>
 						<td><i>Tổng tiền thanh toán: </i></td>
-						<td style="text-align: right;"><?php echo dauphay($tongtien - $thue - $chieckhau); ?></td>
+						<td style="text-align: right;"><?php echo dauphay($tongtien + $thue - $chieckhau); ?></td>
 					</tr>
 				</table>
 				<br>
