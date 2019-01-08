@@ -18,7 +18,10 @@
     border-bottom-right-radius: 3px;
     border-bottom-left-radius: 3px;
     padding: 5px;
-}
+  }
+  *{
+    user-select: none;
+  }
 </style>
 <div class="row">
     <div class="col-md-3">
@@ -59,7 +62,6 @@
               <label for="exampleInputEmail1">Số lượng (<span id="slcon">0</span>)</label>
               <input type="number" class="form-control" id="them-soluong" value="0">
             </div>
-            
             <div class="form-group col-md-6">
               <label for="exampleInputEmail1">%VAT</label>
               <input type="number" class="form-control" id="them-vat" value="0" min="1" >
@@ -227,7 +229,6 @@ $(document).ready(function(){
               url: 'ajax/ajMathang.php',
               data: {ten:$('#them-tenkh').val()},
               success: function(data) {
-                  $('#them-tenkh').removeClass('ui-autocomplete-loading');  
                   response( $.map( data, function(item) {
                     return {
                         label: item.IDKH + ' - ' + item.TENKH,
@@ -236,7 +237,6 @@ $(document).ready(function(){
                   }));
               },
               error: function(data) {
-                  $('#them-tenkh').removeClass('ui-autocomplete-loading');  
               }
           });
       },
@@ -276,8 +276,7 @@ $(document).ready(function(){
               success: function(data) {
                   if(jQuery.isEmptyObject(data)){
                     lammoi();
-                  }
-                  $('#them-mathang').removeClass('ui-autocomplete-loading');  
+                  } 
                   response( $.map( data, function(item) {
                     return {
                         label: item.IDMH + ' - MH: ' + item.TENMH + ' - Lô: ' + item.SOLO + ', NSX: ' + item.NSX + ', HSD: ' + item.HSD,
@@ -285,8 +284,7 @@ $(document).ready(function(){
                     }
                   }));
               },
-              error: function(data) {
-                  $('#them-mathang').removeClass('ui-autocomplete-loading');  
+              error: function(data) { 
               }
           });
       },
@@ -358,7 +356,7 @@ $(document).ready(function(){
         tbdanger('Số lượng xuất không hợp lệ hiện kho chỉ còn '+lston);
         return;
       }
-      var tr = "                <tr>\n" +
+      var tr = "           <tr>\n" +
           "                  <td hidden='hidden'>"+$('#idmathang').val()+"</td>\n" +
           "                  <td>"+$('#them-tenmathang').val()+"</td>\n" +
           "                  <td>"+$('#them-diengiai').val()+"</td>\n" +
@@ -390,7 +388,7 @@ $(document).ready(function(){
       var tienkhach = $('#them-tienkhachtra').val().trim();
       if (tenkh=='' || diachi=='') {
         tbdanger('Vui lòng điền đầy đủ thông tin khách hàng');
-        return;
+        return false;
       }
       var table = $('#banghang');
       var data = [];
@@ -403,7 +401,7 @@ $(document).ready(function(){
       });
       if(jQuery.isEmptyObject(data)){
           tbdanger('Chưa có mặt hàng nào được chọn, vui lòng chọn mặt hàng');
-          return;
+          return false;
       }
       $.ajax({
           url: 'ajax/ajXuathang.php',
@@ -441,8 +439,7 @@ $(document).ready(function(){
     }
     thoigian();
 
-  function printData()
-  {
+  function printData(){
      var divToPrint=document.getElementById("noidungin");
      newWin= window.open("");
      newWin.document.write(divToPrint.outerHTML);
@@ -477,17 +474,17 @@ function loadlai(){
       // tổng tiền
       var tientong = 0;
       data.map(function(d){
-        tientong+=d[6]*d[7]; 
+        tientong+=d[7]*d[8]; 
       });
       // tính tiền chiếc khấu
       var chieckhau = 0;
       data.map(function(d){
-        chieckhau+=(d[6]*d[7])*(d[10]/100); 
+        chieckhau+=(d[7]*d[8])*(d[11]/100); 
       });
       // tính tiền VAT
       var vat = 0;
       data.map(function(d){
-        vat+=(d[6]*d[7])*(d[9]/100); 
+        vat+=(d[7]*d[8])*(d[10]/100); 
       });
       // tiền hàng trừ chiếc khấu
       $('#tienchieckhau').text(dauphay(chieckhau));
@@ -496,6 +493,6 @@ function loadlai(){
       // Tiền thuế GTGT
       $('#tienthue').text(dauphay(vat));
       // Tổng tiền thanh toán
-      $('#tongtien').text(dauphay(tientong-chieckhau-vat));
+      $('#tongtien').text(dauphay((tientong-chieckhau)+vat));
 }
 </script>

@@ -1,40 +1,16 @@
 <script src="../public/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="../public/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<script src="../public/js/polyfiller.js"></script>
+<script src="../public/js/jquery-migrate-3.0.0.min.js"></script>
 <div class="row">
     <div class="col-md-12">
       <div class="box box-primary">
         <div class="box-body">
-          <!--
-          <div class="col-md-3" style="padding:0;">
-            <div class="form-group col-md-12">
-              <label for="exampleInputEmail1">Số hóa đơn</label>
-              <input type="text" class="form-control" id="them-sohoadon" placeholder="Số hóa đơn">
-            </div>
-            <div class="form-group col-md-12">
-              <label for="exampleInputEmail1">Tên đơn vị</label>
-              <input type="text" class="form-control" id="them-tendonvitinh" placeholder="Tên đơn vị">
-            </div>
-            <div class="form-group col-md-12">
-              <label for="exampleInputEmail1">Mã số thuế</label>
-              <input type="text" class="form-control" id="them-masothue" placeholder="Mã số thuế">
-            </div>
-            <div class="form-group col-md-12">
-              <label for="exampleInputEmail1">Địa chỉ</label>
-              <input type="text" class="form-control" id="them-diachi" placeholder="Địa chỉ">
-            </div>
-            <div class="form-group col-md-12">
-              <label for="exampleInputEmail1">Diễn giải</label>
-              <input type="text" class="form-control" id="them-diengiai" placeholder="Diễn giải">
-            </div>
-            <div class="form-group col-md-12">
-              <label for="exampleInputEmail1">Nhân viên bán hàng</label>
-              <input type="text" class="form-control" id="them-nvban" placeholder="Nhân viên bán hàng">
-            </div>
-          </div>-->
           <div class="col-md-12" style="padding:0;">
             <table id="bang-nhaphang" class="table">
               <tr style="background: #c1c1c1;">
                 <th style="text-align: center;">Tên hàng</th>
+                <th style="text-align: center;">Diễn giải</th>
                 <th style="text-align: center;">ĐVT</th>
                 <th style="text-align: center;">Số lô</th>
                 <th style="text-align: center;">NSX</th>
@@ -61,6 +37,7 @@
                 <tr>
                   <th>TT</th>
                   <th>Tên mặt hàng</th>
+                  <th>Diễn giải</th>
                   <th>Số lô</th>
                   <th>NSX</th>
                   <th>HSD</th>
@@ -76,6 +53,7 @@
 	                <tr>
                     <th><?php echo $stt; ?></th>
 	                  <td><?php echo $row['TENMH']; ?></td>
+                    <td><?php echo $row['DIENGIAI']; ?></td>
                     <td><?php echo $row['SOLO']; ?></td>
                     <td><?php echo $row['NSX']; ?></td>
                     <td><?php echo $row['HSD']; ?></td>
@@ -107,6 +85,7 @@
 </div>
 <!-- /.modal -->
 <script type="text/javascript">
+  var nhap=0;
   <?php 
   $dvt = laydonvitinh();
   $row = null;
@@ -149,6 +128,7 @@
     $(document).on('click','#themmoi',function(){
       var tr = "<tr>\n" +
           "<td><input type=\"text\" class=\"form-control\"></td>\n" +
+          "<td><input type=\"text\" class=\"form-control\"></td>\n" +
           "<td><select class=\"form-control\">"+optiondvt+"</select></td>\n" +
           "<td><input type=\"text\" class=\"form-control\"></td>\n" +
           "<td><input type=\"date\" class=\"form-control\"></td>\n" +
@@ -163,8 +143,12 @@
     $('#bang-nhaphang').on('click','.xoahang',function(){
       $(this).parents('tr').remove();
     });
-
     $(document).on('click', '#nhaphang',function(){
+      ++nhap;
+      if (nhap>1) {
+        tbdanger('Bạn đã thao tác rồi, vui lòng load lại trang');
+        return false;
+      }
       var table = $('#bang-nhaphang');
       var data = [];
       table.find('tr:not(:first)').each(function(i, row) {
