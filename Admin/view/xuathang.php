@@ -172,7 +172,9 @@
                   <th>Tiền đưa</th>
                   <th>Còn lại</th>
                   <th>Ghi chú</th>
-                  <th>#</th>
+                  <th>In</th>
+                  <th>Hủy HĐ</th>
+                  <th>Xóa HĐ</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -180,7 +182,7 @@
                 $xuathang = xuathang();
                 while ($row=mysqli_fetch_assoc($xuathang)) { ?>
                   <tr>
-                    <th><?php echo $stt; ?></th>
+                    <th width="50" class="text-center"><?php echo $stt; ?></th>
                     <td><?php echo $row['SOHOADON']; ?></td>
                     <td><?php echo $row['HT']; ?></td>
                     <td><?php echo $row['TENKH']; ?></td>
@@ -189,7 +191,10 @@
                     <td class="sotien text-right"><?php echo number_format($row['TIENDUA'],0); ?></td>
                     <td class="sotien text-right"><?php echo number_format(floatval($row['TONGTIEN'])-floatval($row['TIENDUA']),0); ?></td>
                     <td><?php echo $row['GHICHU']; ?></td>
-                    <td><a href="ajax/ajInhoadon.php?so=<?php echo $row['IDHD'] ?>" target="_blanksd" class="btn btn-primary btn-ms"><i class="fa fa-print"></i></a></td>
+                    <td class="text-center" width="50">
+                      <a href="ajax/ajInhoadon.php?so=<?php echo $row['IDHD'] ?>" target="_blanksd" class="btn btn-primary btn-ms"><i class="fa fa-print"></i></a></td>
+                    <td class="text-center" width="50"><a class="btn btn-warning btn-sm"><i class="fa fa fa-minus"></i></a></td>
+                    <td class="text-center" width="50"><a class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a></td>
                   </tr>
                 <?php $stt++; } ?>
                 </tbody>
@@ -319,6 +324,7 @@ $(document).ready(function(){
       'ordering'    : true,
       'info'        : true,
       'autoWidth'   : false,
+      "scrollX": true,
   language: {
     "sProcessing": "Đang xử lý...",
     "sLengthMenu": "Xem _MENU_ mục",
@@ -496,3 +502,4 @@ function loadlai(){
       $('#tongtien').text(dauphay((tientong-chieckhau)+vat));
 }
 </script>
+
