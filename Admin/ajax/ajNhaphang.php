@@ -49,7 +49,7 @@
 					}
 				}
 				else{
-					$iddvt = intval($data[$i][1]);
+					$iddvt = intval($data[$i][2]);
 					$str = "
 						INSERT INTO mathang (IDDVT,TENMH, GIANHAP, GIABAN, SOLO, SOLUONG,NSX, HSD, DIENGIAI) VALUES ($iddvt,'".$data[$i][0]."','".$data[$i][7]."','".$data[$i][8]."','".$data[$i][3]."','".$data[$i][6]."','".$data[$i][4]."','".$data[$i][5]."','".$data[$i][1]."');
 					";

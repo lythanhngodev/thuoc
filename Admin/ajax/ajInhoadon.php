@@ -134,7 +134,7 @@ function doctien( $number )
 	}
 	function chitiethoadon($id){
 	    $ketnoi = new clsKetnoi();
-	    $query = "SELECT mh.TENMH,mh.DIENGIAI, dvt.TENDVT, mh.SOLO, ct.HSD,ct.SOLUONG, ct.DONGIA, ct.SOLUONG*ct.DONGIA as THANHTIEN, ct.VAT, (ct.SOLUONG*ct.DONGIA)*ct.VAT/100 as THUEVAT,ct.CK, (ct.SOLUONG*ct.DONGIA)*ct.CK/100 as CHIECKHAU FROM cthoadon ct LEFT JOIN mathang mh ON ct.IDMH=mh.IDMH LEFT JOIN donvitinh dvt ON mh.IDDVT=dvt.IDDVT WHERE ct.IDHD = '$id';
+	    $query = "SELECT mh.TENMH,mh.DIENGIAI, ct.DVT, mh.SOLO, ct.HSD,ct.SOLUONG, ct.DONGIA, ct.SOLUONG*ct.DONGIA as THANHTIEN, ct.VAT, (ct.SOLUONG*ct.DONGIA)*ct.VAT/100 as THUEVAT,ct.CK, (ct.SOLUONG*ct.DONGIA)*ct.CK/100 as CHIECKHAU FROM cthoadon ct LEFT JOIN mathang mh ON ct.IDMH=mh.IDMH WHERE ct.IDHD = '$id';
 ";
 	    $result = mysqli_query($ketnoi->conn, $query);
 	    return $result;
@@ -230,9 +230,9 @@ function doctien( $number )
 					while ($row = mysqli_fetch_assoc($cthoadon)) { ?>
 						<tr>
 							<td style="text-align:center;"><?php echo $stt; ?></td>
-							<td><?php echo $row['TENMH']; ?></td>
+							<td style="padding-left: 4px;"><?php echo $row['TENMH']; ?></td>
 							<td><?php echo $row['DIENGIAI'] ?></td>
-							<td><?php echo $row['TENDVT'] ?></td>
+							<td><?php echo $row['DVT'] ?></td>
 							<td><?php echo $row['SOLO'] ?></td>
 							<td style="text-align: center;">
 								<?php 
@@ -270,7 +270,7 @@ function doctien( $number )
 					</tr>
 				</table>
 				<br>
-				<p class="font13" style="margin-top: 1cm;">Số tiền viết bằng chữ: <i><?php echo ucfirst(doctien($tongtien-$thue-$chieckhau)); ?></i></p>
+				<p class="font13" style="margin-top: 1cm;">Số tiền viết bằng chữ: <i><?php echo ucfirst(doctien($tongtien+$thue-$chieckhau)); ?></i></p>
 				<br>
 				<!-- KÝ TÊN XÁC NHẬN -->
 				<table style="width: 190mm;" class="font13">
