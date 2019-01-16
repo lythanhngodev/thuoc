@@ -1,5 +1,6 @@
 <?php 
 $qlma = array(
+	//'HOST' => 'http://localhost:4321/'
 	'HOST' => 'http://localhost:1234/'
 );
 date_default_timezone_set('Asia/Ho_Chi_Minh');
@@ -208,8 +209,6 @@ function convert_number_to_words( $number )
 		}
 		$string .= implode( ' ', $words );
 	}
-
 	return ucfirst(strtolower($string));
 }
-//mysqli_free_result($qr);
  ?>
