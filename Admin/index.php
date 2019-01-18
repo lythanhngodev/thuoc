@@ -92,6 +92,7 @@ $_SESSION['_token'] = _token(256);
                 <li id="cauhinh"><a href="?p=cauhinh"><i class="fa fa-cog"></i> <span>Cấu hình</span></a></li>
                 <li id="thongke"><a href="?p=thongke"><i class="fa fa-bar-chart"></i> <span>Thống kê</span></a></li>
                 <li id="thongtincanhan"><a href="?p=thongtincanhan"><i class="fa fa-user"></i> <span>Thông tin cá nhân</span></a></li>
+                <li id="dangxuat"><a href="../dangxuat.php"><i class="fa fa-sign-out"></i> <span>Đăng xuất</span></a></li>
             </ul>
         </section>
         <!-- /.sidebar -->
