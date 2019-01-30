@@ -107,11 +107,11 @@ $_SESSION['_token'] = _token(256);
 
         <!-- Main content -->
         <section class="content">
-        	<?php if (isset($_GET['p'])) {
-        		switch ($_GET['p']) {
-        			case 'tanglau':
-        				require_once "control/tanglau.php";
-        				break;
+            <?php if (isset($_GET['p'])) {
+                switch ($_GET['p']) {
+                    case 'tanglau':
+                        require_once "control/tanglau.php";
+                        break;
                     case 'nhommathang':
                         require_once "control/nhommathang.php";
                         break;
@@ -139,11 +139,11 @@ $_SESSION['_token'] = _token(256);
                     case 'thongke':
                         require_once "control/thongke.php";
                         break;
-        		}
-        	}
-        	else
-        		require_once "control/trangchinh.php";
-        	 ?>
+                }
+            }
+            else
+                require_once "control/trangchinh.php";
+             ?>
         </section>
         <!-- /.content -->
     </div>
